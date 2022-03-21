@@ -10,5 +10,3 @@ plugins:
   - '@typescript-eslint'
 ignorePatterns:
   - "build/**/*"
-rules:
-  no-console: off
