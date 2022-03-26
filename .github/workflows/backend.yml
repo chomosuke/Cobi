@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: 16
     - run: npm install -g yarn
-    - run: yarn lint:nofix
+    - run: yarn lint
   test:
     runs-on: ubuntu-latest
     needs: build

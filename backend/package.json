@@ -6,12 +6,12 @@
     "build": "tsc",
     "start": "node ./build/index.js",
     "test": "jest --passWithNoTests",
-    "lint": "eslint . --ext .ts --fix",
-    "lint:nofix": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
     "@jest/types": "^27.5.1",
     "@tsconfig/node16": "^1.0.2",
+    "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
