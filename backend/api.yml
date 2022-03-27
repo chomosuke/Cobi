@@ -1,6 +1,6 @@
 openapi: '3.0.3'
 info:
-  title: API
+  title: incomplete RESTapi for a message app
   version: '1.0'
 security:
   - bearerAuth: []
@@ -355,6 +355,36 @@ paths:
         404:
           description: >
             messageId or contact with userId not found
+  /message/{messageId}:
+    get:
+      tags:
+        - message
+      description: get the content of the message
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: message content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timeSent:
+                    type: string
+                    format: date-time
+                  timeRecieved:
+                    type: string
+                    format: date-time
+                  timeRead:
+                    type: string
+                    format: date-time
+                  content:
+                    type: string
 
 components:
   requestBodies:
