@@ -1,6 +1,6 @@
 openapi: '3.0.3'
 info:
-  title: incomplete RESTapi for a message app
+  title: REST API documentation
   version: '1.0'
 security:
   - bearerAuth: []
@@ -122,12 +122,30 @@ paths:
         404:
           description: user not found
   /account/profile-picture:
+    get:
+      tags:
+        - account
+      description: get profile picture for user with userId
+      responses:
+        200:
+          description: imageUrl
+          content:
+            text/plain:
+              schema:
+                type: string
+        400:
+          $ref: '#/components/responses/400'
     put:
       tags:
         - account
       description: set profile picture for current user
       requestBody:
-        $ref: '#/components/requestBodies/image'
+        required: true
+        description: imageUrl
+        content:
+          text/plain:
+            schema:
+              type: string
       responses:
         200:
           description: profile picture updated
@@ -162,7 +180,11 @@ paths:
             type: string
       responses:
         200:
-          $ref: '#/components/responses/image'
+          description: imageUrl
+          content:
+            text/plain:
+              schema:
+                type: string
         400:
           $ref: '#/components/responses/400'
         404:
@@ -317,25 +339,21 @@ paths:
         404:
           description: invite with userId does not exist
 
-  /messages/{userId}:
+  /messages/{chatId}/older-than/{messageId}:
     get:
       tags:
         - message
       description: >
-        get the newest 500 messages older than the oldest
-        message client know between current user and user
-        with userId
+        get the newest 256 messages older than message with messageId
       parameters:
-        - name: userId
+        - name: chatId
           in: path
           required: true
           schema:
             type: string
         - name: messageId
-          in: query
-          description: >
-            messageId of the oldest message client know
-          required: false
+          in: path
+          required: true
           schema:
             type: string
       responses:
@@ -345,7 +363,7 @@ paths:
             application/json:
               schema:
                 type: array
-                maxItems: 500
+                maxItems: 256
                 items:
                   type: string
         400:
@@ -353,15 +371,123 @@ paths:
         401:
           $ref: '#/components/responses/401'
         404:
-          description: >
-            messageId or contact with userId not found
-  /message/{messageId}:
+          description: messageId or chatId not found
+  /messages/{chatId}/newer-than/{messageId}:
+    get:
+      tags:
+        - message
+      description: >
+        get the oldest 256 messages newer than message with messageId
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: messageIds
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 256
+                items:
+                  type: string
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          description: messageId or chatId not found
+  /messages/{chatId}/newest:
+    get:
+      tags:
+        - message
+      description: >
+        get the newest 256 messages for user
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: messageIds
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 256
+                items:
+                  type: string
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          description: chatId not found
+  /message/{chatId}:
+    post:
+      tags:
+        - message
+      description: sending a message
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [text, image, video, file]
+                content:
+                  description: for image, video & file it's the url
+                  oneOf:
+                    - type: string
+                      description: for file or text
+                    - type: array
+                      description: for video & image
+                      items:
+                        type: string
+      responses:
+        200:
+          description: message sent
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: messageId
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          description: chatId not found
+  /message/{chatId}/{messageId}:
     get:
       tags:
         - message
       description: get the content of the message
       parameters:
         - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: chatId
           in: path
           required: true
           schema:
@@ -383,8 +509,24 @@ paths:
                   timeRead:
                     type: string
                     format: date-time
-                  content:
+                  type:
                     type: string
+                    enum: [text, image, video, file]
+                  content:
+                    description: for image, video & file it's the url
+                    oneOf:
+                      - type: string
+                        description: for file or text
+                      - type: array
+                        description: for video & image
+                        items:
+                          type: string
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          description: messageId or chatId not found
 
 components:
   requestBodies:
@@ -404,22 +546,8 @@ components:
             required:
               - accountname
               - password
-    image:
-      required: true
-      content:
-        image/*:
-          schema:
-            type: string
-            format: binary
 
   responses:
-    image:
-      description: image
-      content:
-        image/*:
-          schema:
-            type: string
-            format: binary
     400:
       description: bad request
     401:
