@@ -1,6 +1,8 @@
 import express from 'express';
+import * as OpenApiValidator from 'express-openapi-validator';
 import { Command } from 'commander';
 import { z } from 'zod';
+import path from 'path/posix';
 
 // command line args
 const program = new Command();
@@ -11,6 +13,11 @@ const options = program.opts();
 const port = z.string().parse(options['port']);
 
 const app = express();
+
+app.use(OpenApiValidator.middleware({
+    apiSpec: path.join(__dirname, '../api.yml'),
+    operationHandlers: path.join(__dirname),
+}));
 
 app.get('/', (_req, res) => {
     res.send('Hello World!');
