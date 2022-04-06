@@ -16,7 +16,6 @@ const app = express();
 
 app.use(OpenApiValidator.middleware({
     apiSpec: path.join(__dirname, '../api.yml'),
-    operationHandlers: path.join(__dirname),
 }));
 
 app.get('/', (_req, res) => {
