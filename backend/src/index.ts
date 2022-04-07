@@ -7,7 +7,7 @@ import path from 'path/posix';
 // command line args
 const program = new Command();
 program
-    .option('-p, --port <number', 'the port this server will listen on', '80');
+    .option('-p, --port <number>', 'the port this server will listen on', '80');
 program.parse();
 const options = program.opts();
 const port = z.string().parse(options['port']);
