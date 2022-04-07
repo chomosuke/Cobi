@@ -8,6 +8,10 @@ RESTapi are all on their own instances with an ordinary load balancer.
 
 frontend interact with all three backends, thought it's served from the RESTapi backend.
 
-RESTapi backend is written in typescript. partially because i want to try out some new technology.
+All backends will interact with the auth micro service. The auth micro service will parse username & password into auth token, and parse auth token into userId. It'll also be responsible for authorizing user to access various entities. It's written in typescript.
 
-websocket backends will be written in rust. Rust's performance and ability to multi thread with relative ease would help the scaling of websockets.
+RESTapi backend is written in typescript. partially because I want to try out some new technology. Apart from doing RESTapi stuff, it'll also be responsibly for providing all the environment variables for frontend to find the other two services.
+
+websocket backends will be written in rust (possibly with actix). Rust's performance and ability to multithread with relative ease would help the scaling of websocket.
+
+Anything written in rust should not access the database, let the auth micro service / rest backend do it.
