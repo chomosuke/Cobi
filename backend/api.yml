@@ -88,6 +88,28 @@ paths:
           $ref: '#/components/responses/401'
         409:
           description: username taken
+  /account/search:
+    get:
+      tags:
+        - account
+      description: search for userId with username
+      security: []
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: found userIds presumably ranked
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type:
+                    string
   /account/{userId}:
     get:
       tags:
@@ -191,6 +213,30 @@ paths:
         401:
           $ref: '#/components/responses/401'
   /contact/{userId}:
+    get:
+      tags:
+        - contact
+      description: get the information of a contact
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: contact deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          description: contact not found
     delete:
       tags:
         - contact
