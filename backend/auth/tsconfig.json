@@ -1,0 +1,16 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "ts-node": {
+        "transpileOnly": true
+    },
+    "compilerOptions": {
+        "noImplicitOverride": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "outDir": "./build",
+        "rootDir": "./src"
+    },
+    "include": ["src/**/*"]
+}
