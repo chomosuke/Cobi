@@ -15,3 +15,10 @@ RESTapi backend is written in typescript. partially because I want to try out so
 websocket backends will be written in rust (possibly with actix). Rust's performance and ability to multithread with relative ease would help the scaling of websocket.
 
 Anything written in rust should not access the database, let the auth micro service / rest backend do it.
+
+## database design
+
+- users
+    - id
+    - username
+    - password

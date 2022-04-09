@@ -5,14 +5,14 @@ info:
     are not explicitely stated'
   version: '1.0'
 security:
-  - bearerAuth: []
+- bearerAuth: []
 servers:
-  - url: '{host}/api'
+- url: '{host}/api'
 paths:
   /account/login:
     post:
       tags:
-        - account
+      - account
       security: []
       requestBody:
         $ref: '#/components/requestBodies/usernamePassword'
@@ -29,7 +29,7 @@ paths:
   /account/register:
     post:
       tags:
-        - account
+      - account
       security: []
       requestBody:
         $ref: '#/components/requestBodies/usernamePassword'
@@ -46,7 +46,7 @@ paths:
   /account:
     get:
       tags:
-        - account
+      - account
       description: get info for the logged in account
       responses:
         200:
@@ -55,6 +55,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                - username
+                additionalProperties: false
                 properties:
                   username:
                     type: string
@@ -62,7 +65,7 @@ paths:
           $ref: '#/components/responses/401'
     patch:
       tags:
-        - account
+      - account
       description: change username or password
       requestBody:
         required: true
@@ -70,6 +73,9 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+              - currentPassword
+              additionalProperties: false
               properties:
                 currentPassword:
                   type: string
@@ -80,8 +86,6 @@ paths:
                 password:
                   type: string
                   format: password
-              required:
-                - currentPassword
       responses:
         200:
           description: >
@@ -93,15 +97,15 @@ paths:
   /account/search:
     get:
       tags:
-        - account
+      - account
       description: search for userId with username
       security: []
       parameters:
-        - name: username
-          in: query
-          required: true
-          schema:
-            type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: found userIds presumably ranked
@@ -115,16 +119,16 @@ paths:
   /account/{userId}:
     get:
       tags:
-        - account
+      - account
       description: >
         get info for the account for user with userId
       security: []
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: info for the logged in account
@@ -132,6 +136,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                - username
+                additionalProperties: false
                 properties:
                   username:
                     type: string
@@ -140,7 +147,7 @@ paths:
   /account/profile-picture:
     get:
       tags:
-        - account
+      - account
       description: get profile picture for user with userId
       responses:
         200:
@@ -151,7 +158,7 @@ paths:
                 type: string
     put:
       tags:
-        - account
+      - account
       description: set profile picture for current user
       requestBody:
         required: true
@@ -167,7 +174,7 @@ paths:
           $ref: '#/components/responses/401'
     delete:
       tags:
-        - account
+      - account
       description: remove profile picture for current user
       responses:
         200:
@@ -179,15 +186,15 @@ paths:
   /account/profile-picture/{userId}:
     get:
       tags:
-        - account
+      - account
       description: get profile picture for user with userId
       security: []
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: imageUrl
@@ -201,7 +208,7 @@ paths:
   /contacts:
     get:
       tags:
-        - contact
+      - contact
       description: get list of contact for the current user
       responses:
         200:
@@ -217,14 +224,14 @@ paths:
   /contact/{userId}:
     get:
       tags:
-        - contact
+      - contact
       description: get the information of a contact
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: contact deleted
@@ -232,6 +239,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                - userId
+                additionalProperties: false
                 properties:
                   userId:
                     type: string
@@ -241,14 +251,14 @@ paths:
           description: contact not found
     delete:
       tags:
-        - contact
+      - contact
       description: delete contact for the current user
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: contact deleted
@@ -259,7 +269,7 @@ paths:
   /contact/block:
     post:
       tags:
-        - contact
+      - contact
       description: block a user
       requestBody:
         required: true
@@ -278,7 +288,7 @@ paths:
   /contact/invites/outgoing:
     get:
       tags:
-        - contact
+      - contact
       description: >
         get all outgoing invite for the current user
       responses:
@@ -296,7 +306,7 @@ paths:
   /contact/invite/outgoing:
     post:
       tags:
-        - contact
+      - contact
       description: invite another user to be contact
       requestBody:
         required: true
@@ -315,7 +325,7 @@ paths:
   /contact/invites/incoming:
     get:
       tags:
-        - contact
+      - contact
       description: >
         get all incoming invite for the current user
       responses:
@@ -334,14 +344,14 @@ paths:
   /contact/invite/incoming/{userId}:
     post:
       tags:
-        - contact
+      - contact
       description: accept or reject an invite
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -364,16 +374,16 @@ paths:
       description: >
         get the newest 256 messages older than message with messageId
       parameters:
-        - name: chatId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: messageId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: messageId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: messageIds
@@ -391,20 +401,20 @@ paths:
   /messages/{chatId}/newer-than/{messageId}:
     get:
       tags:
-        - message
+      - message
       description: >
         get the oldest 256 messages newer than message with messageId
       parameters:
-        - name: chatId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: messageId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: messageId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: messageIds
@@ -422,15 +432,15 @@ paths:
   /messages/{chatId}/newest:
     get:
       tags:
-        - message
+      - message
       description: >
         get the newest 256 messages for user
       parameters:
-        - name: chatId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: messageIds
@@ -451,16 +461,21 @@ paths:
         - message
       description: sending a message
       parameters:
-        - name: chatId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+              - type
+              - content
+              additionalProperties: false
               properties:
                 type:
                   type: string
@@ -468,12 +483,12 @@ paths:
                 content:
                   description: for image, video & file it's the url
                   oneOf:
-                    - type: string
-                      description: for file or text
-                    - type: array
-                      description: for video & image
-                      items:
-                        type: string
+                  - type: string
+                    description: for file or text
+                  - type: array
+                    description: for video & image
+                    items:
+                      type: string
       responses:
         200:
           description: message sent
@@ -489,19 +504,19 @@ paths:
   /message/{chatId}/{messageId}:
     get:
       tags:
-        - message
+      - message
       description: get the content of the message
       parameters:
-        - name: messageId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: chatId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: messageId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: message content
@@ -509,6 +524,13 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                - timeSent
+                - timeRecieved
+                - timeRead
+                - type
+                - content
+                additionalProperties: false
                 properties:
                   timeSent:
                     type: string
@@ -525,12 +547,12 @@ paths:
                   content:
                     description: for image, video & file it's the url
                     oneOf:
-                      - type: string
-                        description: for file or text
-                      - type: array
-                        description: for video & image
-                        items:
-                          type: string
+                    - type: string
+                      description: for file or text
+                    - type: array
+                      description: for video & image
+                      items:
+                        type: string
         401:
           $ref: '#/components/responses/401'
         404:
@@ -544,6 +566,10 @@ components:
         application/json:
           schema:
             type: object
+            required:
+            - username
+            - password
+            additionalProperties: false
             properties:
               username:
                 type: string
@@ -551,9 +577,6 @@ components:
               password:
                 type: string
                 format: password
-            required:
-              - username
-              - password
 
   responses:
     401:
