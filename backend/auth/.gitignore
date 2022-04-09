@@ -10,3 +10,8 @@
 #/.pnp.*
 
 /build
+
+.env
+
+/prisma/*
+!/prisma/schema.prisma

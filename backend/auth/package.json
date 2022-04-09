@@ -5,7 +5,9 @@
     "serve": "nodemon ./src/index.ts -- -p 113 -s secret",
     "build": "tsc",
     "start": "node ./build/index.js",
-    "oas-ts": "openapi-typescript api.yml --output src/api.auto.ts",
+    "oas-ts": "openapi-typescript api.yml --output api.auto.ts",
+    "prisma-pull": "prisma db pull && pnpify prisma generate",
+    "prisma-gen": "pnpify prisma generate",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts"
   },
@@ -20,6 +22,7 @@
     "@types/node": "^17.0.23",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
+    "@yarnpkg/pnpify": "^4.0.0-rc.1",
     "eslint": "^8.12.0",
     "eslint-config-chomosuke": "^0.4.0",
     "eslint-import-resolver-node": "^0.3.6",
