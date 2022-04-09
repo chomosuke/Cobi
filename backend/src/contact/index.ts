@@ -1,11 +1,11 @@
 import express, { IRouter } from 'express';
 
-export function routeContact(app: IRouter) {
+export function routeContact(api: IRouter) {
     const contacts = express.Router();
-    app.use('/contacts', contacts);
+    api.use('/contacts', contacts);
     contacts.get('');
     const contact = express.Router();
-    app.use('/contact', contact);
+    api.use('/contact', contact);
     contact.get('/:userId');
     contact.delete('/:userId');
     contact.post('/block');

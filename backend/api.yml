@@ -6,6 +6,8 @@ info:
   version: '1.0'
 security:
   - bearerAuth: []
+servers:
+  - url: '{host}/api'
 paths:
   /account/login:
     post:

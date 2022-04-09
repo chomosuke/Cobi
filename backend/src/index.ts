@@ -18,16 +18,16 @@ const port = z.string().parse(options['port']);
 
 const app = express();
 
-app.use(bodyParser.text());
-app.use(bodyParser.json());
-
-app.use(OpenApiValidator.middleware({
+const api = express.Router();
+app.use('/api', api);
+api.use(bodyParser.text());
+api.use(bodyParser.json());
+api.use(OpenApiValidator.middleware({
     apiSpec: path.join(__dirname, '../api.yml'),
 }));
-
-routeAccount(app);
-routeContact(app);
-routeMessage(app);
+routeAccount(api);
+routeContact(api);
+routeMessage(api);
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console

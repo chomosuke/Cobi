@@ -1,0 +1,5 @@
+{
+    "signal": "SIGKILL",
+    "exec": "yarn ts-node",
+    "ext": ".ts, .yml"
+}

@@ -1,9 +1,11 @@
 import express, { IRouter } from 'express';
 
-export function routeAccount(app: IRouter) {
+export function routeAccount(api: IRouter) {
     const account = express.Router();
-    app.use('/account', account);
-    account.post('/login');
+    api.use('/account', account);
+    account.post('/login', (_req, res) => {
+        res.send('hello world');
+    });
     account.post('/register');
     account.get('');
     account.patch('');
