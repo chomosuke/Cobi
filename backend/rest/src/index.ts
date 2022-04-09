@@ -18,7 +18,7 @@ const port = z.string().parse(options['port']);
 
 const app = express();
 
-const api = express.Router();
+const api = express.Router({ strict: true });
 app.use('/api', api);
 api.use(bodyParser.text());
 api.use(bodyParser.json());
