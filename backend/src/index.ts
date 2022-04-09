@@ -1,8 +1,12 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { Command } from 'commander';
 import { z } from 'zod';
 import path from 'path/posix';
+import { routeAccount } from './account';
+import { routeContact } from './contact';
+import { routeMessage } from './message';
 
 // command line args
 const program = new Command();
@@ -14,13 +18,16 @@ const port = z.string().parse(options['port']);
 
 const app = express();
 
+app.use(bodyParser.text());
+app.use(bodyParser.json());
+
 app.use(OpenApiValidator.middleware({
     apiSpec: path.join(__dirname, '../api.yml'),
 }));
 
-app.get('/', (_req, res) => {
-    res.send('Hello World!');
-});
+routeAccount(app);
+routeContact(app);
+routeMessage(app);
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console

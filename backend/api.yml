@@ -550,7 +550,7 @@ components:
                 type: string
                 format: password
             required:
-              - accountname
+              - username
               - password
 
   responses:
