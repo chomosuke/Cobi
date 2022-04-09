@@ -12,7 +12,7 @@ ignorePatterns:
   - "build/**/*"
 overrides:
   - files:
-      - '**/*.test.ts'
+    - '**/*.test.ts'
     env:
       jest: true
     extends: 'chomosuke/jest'

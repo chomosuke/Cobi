@@ -2,7 +2,7 @@
   "packageManager": "yarn@3.1.1",
   "private": true,
   "scripts": {
-    "serve": "nodemon ./src/index.ts",
+    "serve": "nodemon ./src/index.ts -- -p 80",
     "build": "tsc",
     "start": "node ./build/index.js",
     "test": "jest --passWithNoTests",
