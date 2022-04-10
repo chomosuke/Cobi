@@ -13,5 +13,4 @@
 
 .env
 
-/prisma/*
-!/prisma/schema.prisma
+/coverage
