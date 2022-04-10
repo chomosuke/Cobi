@@ -5,6 +5,7 @@ import path from 'path/posix';
 import expressAsyncHandler from 'express-async-handler';
 import { parse } from './parse';
 import { Context } from './context';
+import { validate } from './validate';
 
 export function constructApp(context: Context) {
     const app = express();
@@ -19,7 +20,7 @@ export function constructApp(context: Context) {
 
     api.post('/parse', expressAsyncHandler((req, res) => parse(context, req, res)));
 
-    api.post('/validate', (_req, _res) => {});
+    api.post('/validate', expressAsyncHandler((req, res) => validate(context, req, res)));
 
     return app;
 }

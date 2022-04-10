@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import request from 'supertest';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import { PrismaClient } from '../prisma';
 import { Context } from '../src/context';
 import { constructApp } from '../src/constructApp';
@@ -8,10 +8,10 @@ import { constructApp } from '../src/constructApp';
 jest.mock('jsonwebtoken');
 const jwtSign = jwt.sign as jest.MockedFunction<
 (
-    token: string,
-    secretOrPublicKey: jwt.Secret,
-    options?: jwt.VerifyOptions,
-) => Record<string, unknown> | string
+    payload: string | Buffer | object,
+    secretOrPrivateKey: Secret,
+    options?: SignOptions,
+) => string
 >;
 
 type FindUnique = PrismaClient['users']['findUnique'];
@@ -28,6 +28,7 @@ const payload = { username: 'username', password: 'somehash' };
 describe('parse', () => {
     beforeEach(() => {
         mockContext.prisma.users.findUnique.mockReset();
+        jwtSign.mockReset();
     });
 
     it('should return 401 if no user found with username & password', async () => {
