@@ -59,7 +59,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-async-handler", "npm:1.2.0"],
             ["express-openapi-validator", "npm:4.13.7"],
             ["jest", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:27.5.1"],
-            ["jest-mock-extended", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.5"],
             ["jsonwebtoken", "npm:8.5.1"],
             ["nodemon", "npm:2.0.15"],
             ["openapi-typescript", "npm:5.2.0"],
@@ -5964,33 +5963,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["jest-mock-extended", [
-        ["npm:2.0.5", {
-          "packageLocation": "./.yarn/cache/jest-mock-extended-npm-2.0.5-b72cf3715d-ffc59a3398.zip/node_modules/jest-mock-extended/",
-          "packageDependencies": [
-            ["jest-mock-extended", "npm:2.0.5"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.5", {
-          "packageLocation": "./.yarn/__virtual__/jest-mock-extended-virtual-1727339313/0/cache/jest-mock-extended-npm-2.0.5-b72cf3715d-ffc59a3398.zip/node_modules/jest-mock-extended/",
-          "packageDependencies": [
-            ["jest-mock-extended", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.5"],
-            ["@types/jest", "npm:27.4.1"],
-            ["@types/typescript", null],
-            ["jest", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:27.5.1"],
-            ["ts-essentials", "virtual:172733931395230b49af86db8db4b9a0e0feb3cd3b987b6c678b4da162fe52f6eaaa0ebfee365c43228ec710d017e768cb64640b9a99ded59a744fddc38d5d4f#npm:7.0.3"],
-            ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
-          ],
-          "packagePeers": [
-            "@types/jest",
-            "@types/typescript",
-            "jest",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["jest-pnp-resolver", [
         ["npm:1.2.2", {
           "packageLocation": "./.yarn/cache/jest-pnp-resolver-npm-1.2.2-da20f8bdfe-bd85dcc0e7.zip/node_modules/jest-pnp-resolver/",
@@ -8054,7 +8026,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express-async-handler", "npm:1.2.0"],
             ["express-openapi-validator", "npm:4.13.7"],
             ["jest", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:27.5.1"],
-            ["jest-mock-extended", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.5"],
             ["jsonwebtoken", "npm:8.5.1"],
             ["nodemon", "npm:2.0.15"],
             ["openapi-typescript", "npm:5.2.0"],
@@ -8753,28 +8724,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/treeify-npm-1.1.0-abf9292333-aa00dded22.zip/node_modules/treeify/",
           "packageDependencies": [
             ["treeify", "npm:1.1.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["ts-essentials", [
-        ["npm:7.0.3", {
-          "packageLocation": "./.yarn/cache/ts-essentials-npm-7.0.3-dbefe5cb3b-74d75868ac.zip/node_modules/ts-essentials/",
-          "packageDependencies": [
-            ["ts-essentials", "npm:7.0.3"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:172733931395230b49af86db8db4b9a0e0feb3cd3b987b6c678b4da162fe52f6eaaa0ebfee365c43228ec710d017e768cb64640b9a99ded59a744fddc38d5d4f#npm:7.0.3", {
-          "packageLocation": "./.yarn/__virtual__/ts-essentials-virtual-530d487c9b/0/cache/ts-essentials-npm-7.0.3-dbefe5cb3b-74d75868ac.zip/node_modules/ts-essentials/",
-          "packageDependencies": [
-            ["ts-essentials", "virtual:172733931395230b49af86db8db4b9a0e0feb3cd3b987b6c678b4da162fe52f6eaaa0ebfee365c43228ec710d017e768cb64640b9a99ded59a744fddc38d5d4f#npm:7.0.3"],
-            ["@types/typescript", null],
-            ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
-          ],
-          "packagePeers": [
-            "@types/typescript",
-            "typescript"
           ],
           "linkType": "HARD",
         }]

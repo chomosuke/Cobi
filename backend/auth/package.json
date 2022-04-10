@@ -30,7 +30,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.4",
     "jest": "^27.5.1",
-    "jest-mock-extended": "^2.0.5",
     "nodemon": "^2.0.15",
     "openapi-typescript": "^5.2.0",
     "prisma": "^3.12.0",
