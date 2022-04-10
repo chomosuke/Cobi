@@ -1,10 +1,7 @@
-import bodyParser from 'body-parser';
-import express from 'express';
-import * as OpenApiValidator from 'express-openapi-validator';
 import { Command } from 'commander';
 import { z } from 'zod';
-import path from 'path/posix';
-import { ParseReq } from './api';
+import { PrismaClient } from '../prisma';
+import { constructApp } from './constructApp';
 
 // command line args
 const program = new Command();
@@ -14,24 +11,11 @@ program
 program.parse();
 const options = program.opts();
 const port = z.string().parse(options['port']);
-const _secret = z.string().parse(options['secret']);
+const secret = z.string().parse(options['secret']);
 
-const app = express();
+const prisma = new PrismaClient();
 
-const api = express.Router({ strict: true });
-app.use('', api);
-api.use(bodyParser.text());
-api.use(bodyParser.json());
-api.use(OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, '../api.yml'),
-}));
-api.post('/parse', (req, _res) => {
-    // eslint-disable-next-line no-restricted-syntax
-    const _body = req.body as ParseReq;
-});
-api.post('/validate', (_req, _res) => {
-
-});
+const app = constructApp({ secret, prisma });
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console
