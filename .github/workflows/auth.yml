@@ -1,4 +1,4 @@
-name: backend
+name: auth
 on: [push]
 defaults:
   run:

@@ -1,4 +1,4 @@
-name: backend
+name: rest
 on: [push]
 defaults:
   run:
