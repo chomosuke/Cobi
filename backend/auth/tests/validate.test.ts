@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import request from 'supertest';
-import jwt, { JwtPayload, Secret, VerifyOptions } from 'jsonwebtoken';
+import jwt, {
+    JsonWebTokenError, JwtPayload, Secret, VerifyOptions,
+} from 'jsonwebtoken';
 import { Context } from '../src/context';
 import { constructApp } from '../src/constructApp';
 
@@ -24,7 +26,7 @@ describe('validate', () => {
 
     it('should return 401 if unable to verify', async () => {
         jwtVerify.mockImplementation(() => {
-            throw new Error();
+            throw new JsonWebTokenError('some error');
         });
         const token = 'token';
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -36,13 +38,14 @@ describe('validate', () => {
 
     it('should return userId if able to verify', async () => {
         const userId = 'userId';
-        jwtVerify.mockReturnValue(userId);
+        jwtVerify.mockReturnValue({ userId });
         const token = 'token';
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/validate')
             .set('Content-type', 'text/plain')
             .send(token);
         expect(res.statusCode).toBe(200);
+        expect(res.text).toBe(userId);
     });
 
     it('should use jwt.verify with correct parameters', async () => {
@@ -52,5 +55,18 @@ describe('validate', () => {
             .set('Content-type', 'text/plain')
             .send('token');
         expect(jwtVerify).toHaveBeenCalledWith(token, mockContext.secret, { maxAge: '1y' });
+    });
+
+    it('should rethrow error that is not JsonWebTokenError', async () => {
+        const error = new Error('some error');
+        jwtVerify.mockImplementation(() => {
+            throw error;
+        });
+        const token = 'token';
+        const res = await request(constructApp(mockContext as unknown as Context))
+            .post('/validate')
+            .set('Content-type', 'text/plain')
+            .send(token);
+        expect(res.statusCode).toBe(500);
     });
 });

@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { Request, Response } from 'express';
+import { z } from 'zod';
 import { Context } from './context';
 import { ValidateReq } from './api';
 
@@ -8,10 +9,15 @@ export function validate(context: Context, req: Request, res: Response) {
     const token = req.body as ValidateReq;
     let userId;
     try {
-        userId = jwt.verify(token, context.secret, { maxAge: '1y' });
+        userId = z.object({ userId: z.string() }).parse(
+            jwt.verify(token, context.secret, { maxAge: '1y' }),
+        ).userId;
     } catch (e) {
-        res.sendStatus(401);
-        return;
+        if (e instanceof JsonWebTokenError) {
+            res.sendStatus(401);
+            return;
+        }
+        throw e;
     }
     res.send(userId);
 }

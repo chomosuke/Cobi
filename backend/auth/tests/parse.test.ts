@@ -14,12 +14,12 @@ const jwtSign = jwt.sign as jest.MockedFunction<
 ) => string
 >;
 
-type FindUnique = PrismaClient['users']['findUnique'];
+type FindFirst = PrismaClient['users']['findFirst'];
 const mockContext = {
     secret: 'secret',
     prisma: {
         users: {
-            findUnique: jest.fn<ReturnType<FindUnique>, Parameters<FindUnique>>(),
+            findFirst: jest.fn<ReturnType<FindFirst>, Parameters<FindFirst>>(),
         },
     },
 };
@@ -27,22 +27,22 @@ const payload = { username: 'username', password: 'somehash' };
 
 describe('parse', () => {
     beforeEach(() => {
-        mockContext.prisma.users.findUnique.mockReset();
+        mockContext.prisma.users.findFirst.mockReset();
         jwtSign.mockReset();
     });
 
     it('should return 401 if no user found with username & password', async () => {
-        mockContext.prisma.users.findUnique.mockResolvedValue(null);
+        mockContext.prisma.users.findFirst.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/parse')
             .send(payload);
         expect(res.statusCode).toBe(401);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({ where: payload });
+        expect(mockContext.prisma.users.findFirst).toHaveBeenCalledWith({ where: payload });
     });
 
     it('should return correct jwt if userId found', async () => {
         const userId = 123;
-        mockContext.prisma.users.findUnique.mockResolvedValue({
+        mockContext.prisma.users.findFirst.mockResolvedValue({
             ...payload,
             id: userId,
         });
@@ -53,7 +53,7 @@ describe('parse', () => {
             .send(payload);
         expect(res.statusCode).toBe(200);
         expect(res.text).toBe(token);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({ where: payload });
-        expect(jwtSign).toHaveBeenCalledWith(userId.toString(), mockContext.secret);
+        expect(mockContext.prisma.users.findFirst).toHaveBeenCalledWith({ where: payload });
+        expect(jwtSign).toHaveBeenCalledWith({ userId: userId.toString() }, mockContext.secret);
     });
 });
