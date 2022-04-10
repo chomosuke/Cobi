@@ -1,0 +1,35 @@
+name: backend
+on: [push]
+defaults:
+  run:
+    working-directory: ./backend/auth
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - run: npm install -g yarn
+    - run: yarn build
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - run: npm install -g yarn
+    - run: yarn lint
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - run: npm install -g yarn
+    - run: yarn test

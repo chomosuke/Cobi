@@ -2,7 +2,7 @@ name: backend
 on: [push]
 defaults:
   run:
-    working-directory: ./backend
+    working-directory: ./backend/rest
 jobs:
   build:
     runs-on: ubuntu-latest
