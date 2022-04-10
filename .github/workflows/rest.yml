@@ -1,5 +1,8 @@
 name: rest
-on: [push]
+on:
+  push:
+    paths:
+    - ./backend/rest/**/*
 defaults:
   run:
     working-directory: ./backend/rest
