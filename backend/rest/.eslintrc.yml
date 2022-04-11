@@ -9,9 +9,10 @@ parserOptions:
 plugins:
 - '@typescript-eslint'
 ignorePatterns:
-- "build/**/*"
-- "**/*.auto.ts"
-- "**/*.js"
+- 'build/**/*'
+- 'prisma/**/*'
+- '**/*.auto.ts'
+- '**/*.js'
 overrides:
 - files:
   - '**/*.test.ts'
