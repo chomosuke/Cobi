@@ -7,6 +7,7 @@
     "start": "node ./build/index.js",
     "oas-ts": "openapi-typescript api.yml --output ./src/api.auto.ts",
     "prisma-pull": "prisma db pull && pnpify prisma generate",
+    "prisma-gen": "pnpify prisma generate",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts"
   },

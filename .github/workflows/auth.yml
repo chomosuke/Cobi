@@ -2,7 +2,7 @@ name: auth
 on:
   push:
     paths:
-    - ./backend/auth/**/*
+    - 'backend/auth/**/*'
 defaults:
   run:
     working-directory: ./backend/auth
@@ -15,6 +15,8 @@ jobs:
       with:
         node-version: 16
     - run: npm install -g yarn
+    - run: yarn
+    - run: yarn prisma-gen
     - run: yarn build
   lint:
     runs-on: ubuntu-latest
@@ -25,6 +27,8 @@ jobs:
       with:
         node-version: 16
     - run: npm install -g yarn
+    - run: yarn
+    - run: yarn prisma-gen
     - run: yarn lint
   test:
     runs-on: ubuntu-latest
@@ -35,4 +39,6 @@ jobs:
       with:
         node-version: 16
     - run: npm install -g yarn
+    - run: yarn
+    - run: yarn prisma-gen
     - run: yarn test
