@@ -6,7 +6,7 @@ websocket for call are on other instances with a load balancer where the load ba
 
 RESTapi are all on their own instances with an ordinary load balancer.
 
-frontend interact with all three backends, thought it's served from the RESTapi backend.
+frontend interact with all three backends. It'll be served from the RESTapi backend.
 
 All backends will interact with the auth micro service. The auth micro service will parse username & password into auth token, and parse auth token into userId. It'll also be responsible for authorizing user to access various entities. It's written in typescript.
 
