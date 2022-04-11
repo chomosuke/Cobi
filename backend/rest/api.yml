@@ -25,7 +25,7 @@ paths:
                 type: string
                 description: bearer token
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /account/register:
     post:
       tags:
@@ -62,7 +62,7 @@ paths:
                   username:
                     type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
     patch:
       tags:
       - account
@@ -93,7 +93,7 @@ paths:
           description: >
             username or password changed successfully
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         409:
           description: username taken
   /account/search:
@@ -173,7 +173,7 @@ paths:
         200:
           description: profile picture updated
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
     delete:
       tags:
       - account
@@ -184,7 +184,7 @@ paths:
         204:
           description: profile picture doesn't exist
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /account/profile-picture/{userId}:
     get:
       tags:
@@ -222,7 +222,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /contact/{userId}:
     get:
       tags:
@@ -248,7 +248,7 @@ paths:
                   userId:
                     type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: contact not found
     delete:
@@ -267,7 +267,7 @@ paths:
         204:
           description: contact with userId does not exist
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /contact/block:
     post:
       tags:
@@ -284,7 +284,7 @@ paths:
         200:
           description: invite sent
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: userId does not exist
   /contact/invites/outgoing:
@@ -304,7 +304,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /contact/invite/outgoing:
     post:
       tags:
@@ -321,7 +321,7 @@ paths:
         200:
           description: invite sent
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: userId does not exist
   /contact/invites/incoming:
@@ -342,7 +342,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
   /contact/invite/incoming/{userId}:
     post:
       tags:
@@ -365,7 +365,7 @@ paths:
         200:
           description: invite accepted/rejected
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: invite with userId does not exist
 
@@ -397,7 +397,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: messageId or chatId not found
   /messages/{chatId}/newer-than/{messageId}:
@@ -428,7 +428,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: messageId or chatId not found
   /messages/{chatId}/newest:
@@ -454,7 +454,7 @@ paths:
                 items:
                   type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: chatId not found
   /message/{chatId}:
@@ -500,7 +500,7 @@ paths:
                 type: string
                 description: messageId
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: chatId not found
   /message/{chatId}/{messageId}:
@@ -556,7 +556,7 @@ paths:
                       items:
                         type: string
         401:
-          $ref: '#/components/responses/401'
+          description: unauthorized
         404:
           description: messageId or chatId not found
 
@@ -581,10 +581,6 @@ components:
                 type: string
                 format: password
                 maxLength: 512
-
-  responses:
-    401:
-      description: unauthorized
 
   securitySchemes:
     bearerAuth:

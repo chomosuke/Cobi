@@ -7,14 +7,16 @@ parserOptions:
   sourceType: module
   project: 'tsconfig.eslint.json'
 plugins:
-  - '@typescript-eslint'
+- '@typescript-eslint'
 ignorePatterns:
-  - "build/**/*"
+- "build/**/*"
+- "**/*.auto.ts"
+- "**/*.js"
 overrides:
-  - files:
-    - '**/*.test.ts'
-    env:
-      jest: true
-    extends: 'chomosuke/jest'
-    plugins:
-      - jest
+- files:
+  - '**/*.test.ts'
+  env:
+    jest: true
+  extends: 'chomosuke/jest'
+  plugins:
+  - jest
