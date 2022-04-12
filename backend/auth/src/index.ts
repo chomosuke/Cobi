@@ -17,6 +17,8 @@ const prisma = new PrismaClient();
 
 const app = constructApp({ secret, prisma });
 
+void prisma.$connect();
+
 app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`Example app listening on port ${port}`);
