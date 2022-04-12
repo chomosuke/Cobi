@@ -14,6 +14,7 @@ const jwtVerify = jwt.verify as unknown as jest.MockedFunction<
     options?: VerifyOptions & { complete?: false }
 ) => JwtPayload | string
 >;
+
 const mockContext = {
     secret: 'secret',
     prisma: undefined,

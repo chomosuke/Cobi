@@ -1,5 +1,6 @@
-import { PrismaClient } from '../prisma';
+import { PrismaClient } from '../prisma/index';
 
 export interface Context {
     prisma: PrismaClient;
+    authUrl: string;
 }

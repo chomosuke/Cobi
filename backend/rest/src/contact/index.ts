@@ -1,6 +1,7 @@
 import express, { IRouter } from 'express';
+import { Context } from '../context';
 
-export function routeContact(api: IRouter) {
+export function routeContact(_context: Context, api: IRouter) {
     const contacts = express.Router();
     api.use('/contacts', contacts);
     contacts.get('');

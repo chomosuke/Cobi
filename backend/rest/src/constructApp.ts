@@ -7,7 +7,7 @@ import { routeAccount } from './account';
 import { routeContact } from './contact';
 import { routeMessage } from './message';
 
-export function constructApp(_context: Context) {
+export function constructApp(context: Context) {
     const app = express();
 
     const api = express.Router({ strict: true });
@@ -17,9 +17,9 @@ export function constructApp(_context: Context) {
     api.use(OpenApiValidator.middleware({
         apiSpec: path.join(__dirname, '../api.yml'),
     }));
-    routeAccount(api);
-    routeContact(api);
-    routeMessage(api);
+    routeAccount(context, api);
+    routeContact(context, api);
+    routeMessage(context, api);
 
     return app;
 }
