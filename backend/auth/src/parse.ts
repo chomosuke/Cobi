@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ParseReq } from './api';
+import { ParseReq } from './apiTypes/api';
 import { Context } from './context';
 
 export async function parse(context: Context, req: Request, res: Response) {

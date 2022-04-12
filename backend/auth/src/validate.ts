@@ -2,7 +2,7 @@ import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { Context } from './context';
-import { ValidateReq } from './api';
+import { ValidateReq } from './apiTypes/api';
 
 export function validate(context: Context, req: Request, res: Response) {
     // eslint-disable-next-line no-restricted-syntax
