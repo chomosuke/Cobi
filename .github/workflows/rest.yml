@@ -3,6 +3,7 @@ on:
   push:
     paths:
     - 'backend/rest/**/*'
+  pull_request:
 defaults:
   run:
     working-directory: ./backend/rest
