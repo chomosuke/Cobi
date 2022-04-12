@@ -2,7 +2,7 @@
   "packageManager": "yarn@3.1.1",
   "private": true,
   "scripts": {
-    "serve": "nodemon ./src/index.ts -- -p 80",
+    "serve": "nodemon ./src/index.ts -- -p 80 -a http://localhost:113",
     "build": "tsc",
     "start": "node ./build/index.js",
     "oas-ts": "openapi-typescript api.yml --output ./src/api.auto.ts",
@@ -19,6 +19,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
+    "@types/node-fetch": "^2.6.1",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
@@ -45,6 +46,7 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "express-openapi-validator": "^4.13.7",
+    "node-fetch": "^2.0.0",
     "zod": "^3.14.4"
   }
 }

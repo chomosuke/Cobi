@@ -196,11 +196,11 @@ export interface paths {
         };
       };
       responses: {
-        /** contact deleted */
+        /** information of a contact */
         200: {
           content: {
             "application/json": {
-              userId: string;
+              chatId: string;
             };
           };
         };

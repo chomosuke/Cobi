@@ -1,12 +1,14 @@
 import express, { IRouter } from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import { Context } from '../context';
+import { login } from './login';
+import { register } from './register';
 
-export function routeAccount(api: IRouter) {
+export function routeAccount(context: Context, api: IRouter) {
     const account = express.Router();
     api.use('/account', account);
-    account.post('/login', (_req, res) => {
-        res.send('hello world');
-    });
-    account.post('/register');
+    account.post('/login', expressAsyncHandler((req, res) => login(context, req, res)));
+    account.post('/register', expressAsyncHandler((req, res) => register(context, req, res)));
     account.get('');
     account.patch('');
     account.get('/search');

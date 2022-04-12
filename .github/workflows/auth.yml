@@ -3,6 +3,7 @@ on:
   push:
     paths:
     - 'backend/auth/**/*'
+  pull_request:
 defaults:
   run:
     working-directory: ./backend/auth

@@ -23,6 +23,7 @@ const mockContext = {
         },
     },
 };
+
 const payload = { username: 'username', password: 'somehash' };
 
 describe('parse', () => {

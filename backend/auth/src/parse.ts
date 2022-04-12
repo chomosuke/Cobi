@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ParseReq } from './api';
+import { paths } from './api.auto';
 import { Context } from './context';
+
+type Req = paths['/parse']['post']['requestBody']['content']['application/json'];
 
 export async function parse(context: Context, req: Request, res: Response) {
     const { prisma, secret } = context;
     // eslint-disable-next-line no-restricted-syntax
-    const body = req.body as ParseReq;
+    const body = req.body as Req;
     const user = await prisma.users.findFirst({
         where: body,
     });
