@@ -1,13 +1,15 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { PrismaClientKnownRequestError } from '../../prisma/runtime';
-import { RegisterReq } from '../apiTypes/api';
+import { paths } from '../api.auto';
 import { Context } from '../context';
+
+type Req = paths['/account/register']['post']['requestBody']['content']['application/json'];
 
 export async function register(context: Context, req: Request, res: Response) {
     const { prisma, authUrl } = context;
     // eslint-disable-next-line no-restricted-syntax
-    const body = req.body as RegisterReq;
+    const body = req.body as Req;
     try {
         await prisma.users.create({
             data: body,
