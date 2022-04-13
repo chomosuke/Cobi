@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import fetch from 'node-fetch';
-import { PrismaClient } from '../prisma';
-import { Context } from '../src/context';
-import { constructApp } from '../src/constructApp';
-import { PrismaClientKnownRequestError } from '../prisma/runtime';
+import { PrismaClient } from '../../prisma';
+import { Context } from '../../src/context';
+import { constructApp } from '../../src/constructApp';
+import { PrismaClientKnownRequestError } from '../../prisma/runtime';
 
 jest.mock('node-fetch');
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
