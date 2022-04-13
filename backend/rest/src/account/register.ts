@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { PrismaClientKnownRequestError } from '../../prisma/runtime';
-import { paths } from '../api.auto';
+import { paths } from '../apiTypes/api.auto';
 import { Context } from '../context';
 
 type Req = paths['/account/register']['post']['requestBody']['content']['application/json'];

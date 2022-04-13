@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { paths } from '../api.auto';
+import { paths } from '../apiTypes/api.auto';
 import { Context } from '../context';
 
 type Req = paths['/account/login']['post']['requestBody']['content']['application/json'];
