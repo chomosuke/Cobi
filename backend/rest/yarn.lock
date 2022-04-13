@@ -2426,6 +2426,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie-parser@npm:^1.4.4":
+  version: 1.4.6
+  resolution: "cookie-parser@npm:1.4.6"
+  dependencies:
+    cookie: 0.4.1
+    cookie-signature: 1.0.6
+  checksum: 1e5a63aa82e8eb4e02d2977c6902983dee87b02e87ec5ec43ac3cb1e72da354003716570cd5190c0ad9e8a454c9d3237f4ad6e2f16d0902205a96a1c72b77ba5
+  languageName: node
+  linkType: hard
+
 "cookie-signature@npm:1.0.6":
   version: 1.0.6
   resolution: "cookie-signature@npm:1.0.6"
@@ -2433,10 +2443,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie@npm:0.4.1":
+  version: 0.4.1
+  resolution: "cookie@npm:0.4.1"
+  checksum: bd7c47f5d94ab70ccdfe8210cde7d725880d2fcda06d8e375afbdd82de0c8d3b73541996e9ce57d35f67f672c4ee6d60208adec06b3c5fc94cebb85196084cf8
+  languageName: node
+  linkType: hard
+
 "cookie@npm:0.4.2":
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
   checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
+  languageName: node
+  linkType: hard
+
+"cookie@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "cookie@npm:0.3.1"
+  checksum: 5309937344947a049283573861c24bed054fac3334ce5a0fa74b9bc6bf39bd387d3a0fca7f3ed6f4a09f112de82c00b541a0e7d6ce7a8de0f5d1301eec799730
   languageName: node
   linkType: hard
 
@@ -3244,6 +3268,16 @@ __metadata:
   version: 1.2.0
   resolution: "express-async-handler@npm:1.2.0"
   checksum: ab9ebba8b8366954cb06ab87cf91fc974428993a97940c499114134ce33144f5d1ffad380e60a53a1569c3cd9501cb209e1fb57b1845a4fc8ff449937598f2f1
+  languageName: node
+  linkType: hard
+
+"express-bearer-token@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "express-bearer-token@npm:2.4.0"
+  dependencies:
+    cookie: ^0.3.1
+    cookie-parser: ^1.4.4
+  checksum: 7fddd77d7c6585209e86b20643736d239f2268c5a969b29f36421f95677705588a7a5d705b5d3c730a51d72e8006da37e9b4588daa00dd683527ee408af12b4a
   languageName: node
   linkType: hard
 
@@ -6459,6 +6493,7 @@ __metadata:
     eslint-plugin-jest: ^26.1.4
     express: ^4.17.3
     express-async-handler: ^1.2.0
+    express-bearer-token: ^2.4.0
     express-openapi-validator: ^4.13.7
     jest: ^27.5.1
     node-fetch: ^2.0.0

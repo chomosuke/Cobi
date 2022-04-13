@@ -45,6 +45,7 @@
     "commander": "^9.1.0",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
+    "express-bearer-token": "^2.4.0",
     "express-openapi-validator": "^4.13.7",
     "node-fetch": "^2.0.0",
     "zod": "^3.14.4"
