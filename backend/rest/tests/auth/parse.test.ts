@@ -20,6 +20,11 @@ describe('parse token', () => {
             status: 200,
         } as Awaited<ReturnType<typeof fetch>>);
         expect(await parse(authUrl, payload)).toBe(authToken);
+        expect(mockFetch).toHaveBeenCalledWith(`${authUrl}/parse`, {
+            method: 'post',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json' },
+        });
     });
 
     it('should return null if status 401', async () => {
