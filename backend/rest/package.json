@@ -2,7 +2,7 @@
   "packageManager": "yarn@3.1.1",
   "private": true,
   "scripts": {
-    "serve": "nodemon ./src/index.ts -- -p 80 -a http://localhost:113",
+    "serve": "nodemon ./src/index.ts -- -p 80 -a http://localhost:113 -d",
     "build": "tsc",
     "start": "node ./build/index.js",
     "oas-ts": "openapi-typescript api.yml --output ./src/apiTypes/api.auto.ts",

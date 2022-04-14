@@ -5,6 +5,7 @@ import { PrismaClient } from '../prisma/index';
 export interface Context {
     prisma: PrismaClient;
     authUrl: string;
+    debug: boolean;
 }
 
 export function contextAsyncHandler(

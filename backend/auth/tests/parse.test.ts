@@ -19,7 +19,7 @@ const mockContext = {
     secret: 'secret',
     prisma: {
         users: {
-            findFirst: jest.fn<ReturnType<FindFirst>, Parameters<FindFirst>>(),
+            findFirst: jest.fn<Promise<{ id: number } | null>, Parameters<FindFirst>>(),
         },
     },
     debug: true,
@@ -36,7 +36,6 @@ describe('parse', () => {
     it('should return correct jwt if userId found', async () => {
         const userId = 123;
         mockContext.prisma.users.findFirst.mockResolvedValue({
-            ...payload,
             id: userId,
         });
         const token = 'jwt';

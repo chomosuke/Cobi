@@ -10,6 +10,7 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 const mockContext = {
     authUrl: 'https://somehost',
     prisma: undefined,
+    debug: true,
 };
 
 const payload = { username: 'username', password: 'somehash' };

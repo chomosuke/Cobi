@@ -18,6 +18,7 @@ const mockReq: {
 const mockContext = {
     authUrl: 'https://somehost',
     prisma: undefined,
+    debug: true,
 };
 
 const sendStatus = jest.fn<unknown, [number]>();

@@ -17,6 +17,7 @@ const mockContext = {
             create: jest.fn<ReturnType<Create>, Parameters<Create>>(),
         },
     },
+    debug: true,
 };
 
 const payload = { username: 'username', password: 'somehash' };
