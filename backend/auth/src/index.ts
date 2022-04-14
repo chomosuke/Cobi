@@ -7,15 +7,17 @@ import { constructApp } from './constructApp';
 const program = new Command();
 program
     .option('-p, --port <number>', 'the port this server will listen on')
-    .option('-s, --secret <string>', 'server secret');
+    .option('-s, --secret <string>', 'server secret')
+    .option('-d, --debug', 'debug mode', false);
 program.parse();
 const options = program.opts();
 const port = z.string().parse(options['port']);
 const secret = z.string().parse(options['secret']);
+const debug = z.boolean().parse(options['debug']);
 
 const prisma = new PrismaClient();
 
-const app = constructApp({ secret, prisma });
+const app = constructApp({ secret, prisma, debug });
 
 void prisma.$connect();
 

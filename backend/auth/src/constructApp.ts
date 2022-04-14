@@ -16,6 +16,7 @@ export function constructApp(context: Context) {
     api.use(bodyParser.json());
     api.use(OpenApiValidator.middleware({
         apiSpec: path.join(__dirname, '../api.yml'),
+        validateResponses: context.debug,
     }));
 
     api.post('/parse', expressAsyncHandler((req, res) => parse(context, req, res)));
