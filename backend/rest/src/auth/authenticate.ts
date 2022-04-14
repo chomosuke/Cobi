@@ -7,7 +7,7 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Express {
         export interface Request {
-            userId: string;
+            userId: number;
         }
     }
 }
@@ -37,6 +37,6 @@ async function authenticateWithToken(
         res.sendStatus(401);
         return;
     }
-    req.userId = userId;
+    req.userId = parseInt(userId, 10);
     next();
 }

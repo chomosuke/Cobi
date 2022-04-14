@@ -10,7 +10,7 @@ const next = jest.fn<void, []>();
 
 const mockReq: {
     token: string;
-    userId?: string;
+    userId?: number;
 } = {
     token: 'someToken',
 };
@@ -47,7 +47,7 @@ describe('authenticate middleware', () => {
             );
         });
         expect(next).toHaveBeenCalledTimes(1);
-        expect(mockReq.userId).toBe(userId);
+        expect(mockReq.userId).toBe(parseInt(userId, 10));
         expect(sendStatus).not.toHaveBeenCalled();
     });
 
