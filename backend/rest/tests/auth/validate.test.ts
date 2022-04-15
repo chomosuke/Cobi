@@ -40,6 +40,6 @@ describe('validate token', () => {
             text: async () => { throw new Error('this should not be read'); },
             status: 500,
         } as unknown as Awaited<ReturnType<typeof fetch>>);
-        await expect(validate(authUrl, token)).rejects.toEqual(expect.anything());
+        await expect(validate(authUrl, token)).rejects.toStrictEqual(expect.anything());
     });
 });

@@ -44,7 +44,11 @@ describe('register', () => {
             body: JSON.stringify(payload),
             headers: { 'Content-Type': 'application/json' },
         });
-        expect(mockContext.prisma.users.create).toHaveBeenCalledWith({ data: payload });
+        expect(mockContext.prisma.users.create).toHaveBeenCalledWith({
+            data: {
+                ...payload,
+            },
+        });
     });
 
     it('should return 409 if conflicted', async () => {

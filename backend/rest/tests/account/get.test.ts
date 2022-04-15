@@ -35,7 +35,7 @@ describe('account get', () => {
             .get('/api/account')
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(200);
-        expect(res.body).toEqual({ username });
+        expect(res.body).toStrictEqual({ username });
         expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: { username: true },
