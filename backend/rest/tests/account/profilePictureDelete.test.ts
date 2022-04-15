@@ -30,7 +30,7 @@ const mockContext = {
     debug: true,
 };
 
-describe('put profile picture', () => {
+describe('delete profile picture', () => {
     beforeEach(() => {
         mockContext.prisma.users.update.mockReset();
         mockContext.prisma.users.findUnique.mockReset();
