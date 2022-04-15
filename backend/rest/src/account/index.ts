@@ -6,6 +6,7 @@ import { getOther } from './getOther';
 import { login } from './login';
 import { patch } from './patch';
 import { profilePictureGet } from './profilePictureGet';
+import { profilePicturePut } from './profilePicturePut';
 import { register } from './register';
 import { search } from './search';
 
@@ -18,7 +19,7 @@ export function routeAccount(context: Context, api: IRouter) {
     account.patch('', authenticate(context), contextAsyncHandler(context, patch));
     account.get('/search', contextAsyncHandler(context, search));
     account.get('/profile-picture', authenticate(context), contextAsyncHandler(context, profilePictureGet));
-    account.put('/profile-picture');
+    account.put('/profile-picture', authenticate(context), contextAsyncHandler(context, profilePicturePut));
     account.delete('/profile-picture');
     account.get('/profile-picture/:userId');
 
