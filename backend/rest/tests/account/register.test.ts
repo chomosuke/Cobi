@@ -48,9 +48,9 @@ describe('register', () => {
     });
 
     it('should return 409 if conflicted', async () => {
-        mockContext.prisma.users.create.mockImplementation(() => {
-            throw new PrismaClientKnownRequestError('test error', 'P2002', 'random version');
-        });
+        mockContext.prisma.users.create.mockRejectedValue(
+            new PrismaClientKnownRequestError('test error', 'P2002', 'random version'),
+        );
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);
@@ -69,9 +69,9 @@ describe('register', () => {
     });
 
     it('should throw if prisma client throw error that\'s not unique index error', async () => {
-        mockContext.prisma.users.create.mockImplementation(() => {
-            throw new PrismaClientKnownRequestError('test error', 'P2202', 'random version');
-        });
+        mockContext.prisma.users.create.mockRejectedValue(
+            new PrismaClientKnownRequestError('test error', 'P2202', 'random version'),
+        );
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);

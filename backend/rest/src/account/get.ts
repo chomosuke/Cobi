@@ -13,10 +13,8 @@ export async function get(context: Context, req: Request, res: Response) {
         select: {
             username: true,
         },
+        rejectOnNotFound: true,
     });
-    if (user === null) {
-        throw new Error('user is null even though passed through authentication middleware');
-    }
     const resBody: Res = {
         username: user.username,
     };

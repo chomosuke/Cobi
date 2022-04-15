@@ -39,6 +39,7 @@ describe('account get', () => {
         expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: { username: true },
+            rejectOnNotFound: true,
         });
         expect(authenticateMock).toHaveBeenCalled();
     });

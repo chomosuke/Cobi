@@ -3,6 +3,7 @@ import { authenticate } from '../auth/authenticate';
 import { Context, contextAsyncHandler } from '../context';
 import { get } from './get';
 import { login } from './login';
+import { patch } from './patch';
 import { register } from './register';
 
 export function routeAccount(context: Context, api: IRouter) {
@@ -11,7 +12,7 @@ export function routeAccount(context: Context, api: IRouter) {
     account.post('/login', contextAsyncHandler(context, login));
     account.post('/register', contextAsyncHandler(context, register));
     account.get('', authenticate(context), contextAsyncHandler(context, get));
-    account.patch('');
+    account.patch('', authenticate(context), contextAsyncHandler(context, patch));
     account.get('/search');
     account.get('/:userId');
     account.get('/profile-picture');
