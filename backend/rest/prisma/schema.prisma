@@ -9,7 +9,8 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  username String @unique @db.VarChar(128)
-  password String @db.VarChar(512)
+  id                Int     @id @default(autoincrement())
+  username          String  @unique @db.VarChar(128)
+  password          String  @db.VarChar(512)
+  profilePictureUrl String? @db.VarChar(4096)
 }

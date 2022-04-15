@@ -158,6 +158,10 @@ paths:
             text/plain:
               schema:
                 type: string
+        401:
+          description: unauthorized
+        404:
+          description: there is no profile picture for this user
     put:
       tags:
       - account
@@ -172,6 +176,8 @@ paths:
       responses:
         200:
           description: profile picture updated
+        201:
+          description: profile picture created
         401:
           description: unauthorized
     delete:
