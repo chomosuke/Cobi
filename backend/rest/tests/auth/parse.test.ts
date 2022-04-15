@@ -40,6 +40,6 @@ describe('parse token', () => {
             text: async () => { throw new Error('this should not be read'); },
             status: 500,
         } as unknown as Awaited<ReturnType<typeof fetch>>);
-        await expect(parse(authUrl, payload)).rejects.toEqual(expect.anything());
+        await expect(parse(authUrl, payload)).rejects.toStrictEqual(expect.anything());
     });
 });
