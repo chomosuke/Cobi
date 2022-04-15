@@ -50,6 +50,7 @@ describe('authenticate middleware', () => {
         expect(next).toHaveBeenCalledTimes(1);
         expect(mockReq.userId).toBe(parseInt(userId, 10));
         expect(sendStatus).not.toHaveBeenCalled();
+        expect(mockValidate).toHaveBeenCalledWith(mockContext.authUrl, mockReq.token);
     });
 
     it('should return 401 if validate failed', async () => {
@@ -61,6 +62,19 @@ describe('authenticate middleware', () => {
                 () => { next(); res(); },
             );
         });
+        expect(next).not.toHaveBeenCalled();
+        expect(sendStatus).toHaveBeenCalledWith(401);
+    });
+
+    it('should return 401 if token is undefined', async () => {
+        await new Promise<void>((res, _rej) => {
+            authenticateWithToken(
+                {} as unknown as Request,
+                mockRes(res) as unknown as Response,
+                () => { next(); res(); },
+            );
+        });
+        expect(mockValidate).not.toHaveBeenCalled();
         expect(next).not.toHaveBeenCalled();
         expect(sendStatus).toHaveBeenCalledWith(401);
     });
