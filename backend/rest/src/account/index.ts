@@ -2,6 +2,7 @@ import express, { IRouter } from 'express';
 import { authenticate } from '../auth/authenticate';
 import { Context, contextAsyncHandler } from '../context';
 import { get } from './get';
+import { getOther } from './getOther';
 import { login } from './login';
 import { patch } from './patch';
 import { register } from './register';
@@ -15,7 +16,7 @@ export function routeAccount(context: Context, api: IRouter) {
     account.get('', authenticate(context), contextAsyncHandler(context, get));
     account.patch('', authenticate(context), contextAsyncHandler(context, patch));
     account.get('/search', contextAsyncHandler(context, search));
-    account.get('/:userId');
+    account.get('/:userId', contextAsyncHandler(context, getOther));
     account.get('/profile-picture');
     account.put('/profile-picture');
     account.delete('/profile-picture');
