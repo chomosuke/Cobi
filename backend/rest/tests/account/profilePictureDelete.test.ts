@@ -37,16 +37,13 @@ describe('put profile picture', () => {
         authenticateMock.mockClear();
     });
 
-    it('should update profile picture if exist', async () => {
-        const profilePictureUrl = 'someUrl';
+    it('should delete profile picture if exist', async () => {
         mockContext.prisma.users.findUnique.mockResolvedValue({
             profilePictureUrl: 'some other url',
         });
         const res = await request(constructApp(mockContext as unknown as Context))
-            .put('/api/account/profile-picture')
-            .set('Authorization', 'bearer someToken')
-            .set('Content-type', 'text/plain')
-            .send(profilePictureUrl);
+            .delete('/api/account/profile-picture')
+            .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(200);
         expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
@@ -55,25 +52,22 @@ describe('put profile picture', () => {
         });
         expect(mockContext.prisma.users.update).toHaveBeenCalledWith({
             where: { id: userId },
-            data: { profilePictureUrl },
+            data: { profilePictureUrl: null },
             select: { id: true },
         });
         expect(authenticateMock).toHaveBeenCalled();
     });
 
-    it('should create profile picture if not exist', async () => {
-        const profilePictureUrl = 'someUrl';
+    it('should return 204 if profile picture does not exist', async () => {
         mockContext.prisma.users.findUnique.mockResolvedValue({
             profilePictureUrl: null,
         });
         const res = await request(constructApp(mockContext as unknown as Context))
-            .put('/api/account/profile-picture')
-            .set('Authorization', 'bearer someToken')
-            .set('Content-type', 'text/plain')
-            .send(profilePictureUrl);
-        expect(res.statusCode).toBe(201);
+            .delete('/api/account/profile-picture')
+            .set('Authorization', 'bearer someToken');
+        expect(res.statusCode).toBe(204);
         expect(mockContext.prisma.users.findUnique).toHaveBeenCalled();
-        expect(mockContext.prisma.users.update).toHaveBeenCalled();
+        expect(mockContext.prisma.users.update).not.toHaveBeenCalled();
         expect(authenticateMock).toHaveBeenCalled();
     });
 });
