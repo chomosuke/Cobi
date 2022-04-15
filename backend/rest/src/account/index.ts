@@ -5,6 +5,7 @@ import { get } from './get';
 import { getOther } from './getOther';
 import { login } from './login';
 import { patch } from './patch';
+import { profilePictureGet } from './profilePictureGet';
 import { register } from './register';
 import { search } from './search';
 
@@ -16,9 +17,11 @@ export function routeAccount(context: Context, api: IRouter) {
     account.get('', authenticate(context), contextAsyncHandler(context, get));
     account.patch('', authenticate(context), contextAsyncHandler(context, patch));
     account.get('/search', contextAsyncHandler(context, search));
-    account.get('/:userId', contextAsyncHandler(context, getOther));
-    account.get('/profile-picture');
+    account.get('/profile-picture', authenticate(context), contextAsyncHandler(context, profilePictureGet));
     account.put('/profile-picture');
     account.delete('/profile-picture');
     account.get('/profile-picture/:userId');
+
+    // have to be at the end because otherwise would catch /profile-picture & return 404
+    account.get('/:userId', contextAsyncHandler(context, getOther));
 }

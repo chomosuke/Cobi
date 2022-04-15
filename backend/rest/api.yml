@@ -158,6 +158,10 @@ paths:
             text/plain:
               schema:
                 type: string
+        401:
+          description: unauthorized
+        404:
+          description: there is no profile picture for this user
     put:
       tags:
       - account
