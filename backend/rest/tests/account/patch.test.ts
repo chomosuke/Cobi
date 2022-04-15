@@ -18,7 +18,7 @@ const mockContext = {
     authUrl: undefined,
     prisma: {
         users: {
-            update: jest.fn<ReturnType<Update>, Parameters<Update>>(),
+            update: jest.fn<Promise<{ id: number }>, Parameters<Update>>(),
             findUnique: jest.fn<Promise<{ password: string }>, Parameters<FindUnique>>(),
         },
     },
@@ -42,6 +42,7 @@ describe('account patch', () => {
             currentPassword: 'currentPassword',
             ...changes,
         };
+        mockContext.prisma.users.update.mockResolvedValue({ id: userId });
         mockContext.prisma.users.findUnique.mockResolvedValue({
             password: payload.currentPassword,
         });
@@ -58,6 +59,7 @@ describe('account patch', () => {
         expect(mockContext.prisma.users.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: changes,
+            select: { id: true },
         });
         expect(authenticateMock).toHaveBeenCalled();
     });
