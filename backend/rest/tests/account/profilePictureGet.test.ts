@@ -47,7 +47,7 @@ describe('get profile picture', () => {
         expect(authenticateMock).toHaveBeenCalled();
     });
 
-    it('should return profile picture if not exist', async () => {
+    it('should not return profile picture if not exist', async () => {
         const profilePictureUrl = null;
         mockContext.prisma.users.findUnique.mockResolvedValue({ profilePictureUrl });
         const res = await request(constructApp(mockContext as unknown as Context))

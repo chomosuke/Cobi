@@ -176,6 +176,8 @@ paths:
       responses:
         200:
           description: profile picture updated
+        201:
+          description: profile picture created
         401:
           description: unauthorized
     delete:
