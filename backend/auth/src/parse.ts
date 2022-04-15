@@ -11,6 +11,9 @@ export async function parse(context: Context, req: Request, res: Response) {
     const body = req.body as Req;
     const user = await prisma.users.findFirst({
         where: body,
+        select: {
+            id: true,
+        },
     });
     if (user === null) {
         res.sendStatus(401);

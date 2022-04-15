@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import fetch from 'node-fetch';
-import { Context } from '../src/context';
-import { constructApp } from '../src/constructApp';
+import { Context } from '../../src/context';
+import { constructApp } from '../../src/constructApp';
 
 jest.mock('node-fetch');
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
@@ -10,12 +10,13 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 const mockContext = {
     authUrl: 'https://somehost',
     prisma: undefined,
+    debug: true,
 };
 
 const payload = { username: 'username', password: 'somehash' };
 const authToken = 'authToken';
 
-describe('register', () => {
+describe('login', () => {
     beforeEach(() => {
         mockFetch.mockReset();
     });

@@ -1,16 +1,18 @@
 import express, { IRouter } from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import { Context } from '../context';
+import { authenticate } from '../auth/authenticate';
+import { Context, contextAsyncHandler } from '../context';
+import { get } from './get';
 import { login } from './login';
+import { patch } from './patch';
 import { register } from './register';
 
 export function routeAccount(context: Context, api: IRouter) {
     const account = express.Router();
     api.use('/account', account);
-    account.post('/login', expressAsyncHandler((req, res) => login(context, req, res)));
-    account.post('/register', expressAsyncHandler((req, res) => register(context, req, res)));
-    account.get('');
-    account.patch('');
+    account.post('/login', contextAsyncHandler(context, login));
+    account.post('/register', contextAsyncHandler(context, register));
+    account.get('', authenticate(context), contextAsyncHandler(context, get));
+    account.patch('', authenticate(context), contextAsyncHandler(context, patch));
     account.get('/search');
     account.get('/:userId');
     account.get('/profile-picture');

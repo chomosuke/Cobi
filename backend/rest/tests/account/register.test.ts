@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import fetch from 'node-fetch';
-import { PrismaClient } from '../prisma';
-import { Context } from '../src/context';
-import { constructApp } from '../src/constructApp';
-import { PrismaClientKnownRequestError } from '../prisma/runtime';
+import { PrismaClient } from '../../prisma';
+import { Context } from '../../src/context';
+import { constructApp } from '../../src/constructApp';
+import { PrismaClientKnownRequestError } from '../../prisma/runtime';
 
 jest.mock('node-fetch');
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
@@ -17,6 +17,7 @@ const mockContext = {
             create: jest.fn<ReturnType<Create>, Parameters<Create>>(),
         },
     },
+    debug: true,
 };
 
 const payload = { username: 'username', password: 'somehash' };
@@ -47,9 +48,9 @@ describe('register', () => {
     });
 
     it('should return 409 if conflicted', async () => {
-        mockContext.prisma.users.create.mockImplementation(() => {
-            throw new PrismaClientKnownRequestError('test error', 'P2002', 'random version');
-        });
+        mockContext.prisma.users.create.mockRejectedValue(
+            new PrismaClientKnownRequestError('test error', 'P2002', 'random version'),
+        );
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);
@@ -68,9 +69,9 @@ describe('register', () => {
     });
 
     it('should throw if prisma client throw error that\'s not unique index error', async () => {
-        mockContext.prisma.users.create.mockImplementation(() => {
-            throw new PrismaClientKnownRequestError('test error', 'P2202', 'random version');
-        });
+        mockContext.prisma.users.create.mockRejectedValue(
+            new PrismaClientKnownRequestError('test error', 'P2202', 'random version'),
+        );
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);

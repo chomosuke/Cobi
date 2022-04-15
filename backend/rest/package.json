@@ -2,10 +2,10 @@
   "packageManager": "yarn@3.1.1",
   "private": true,
   "scripts": {
-    "serve": "nodemon ./src/index.ts -- -p 80 -a http://localhost:113",
+    "serve": "nodemon ./src/index.ts -- -p 80 -a http://localhost:113 -d",
     "build": "tsc",
     "start": "node ./build/index.js",
-    "oas-ts": "openapi-typescript api.yml --output ./src/api.auto.ts",
+    "oas-ts": "openapi-typescript api.yml --output ./src/apiTypes/api.auto.ts",
     "prisma-pull": "prisma db pull && pnpify prisma generate",
     "prisma-gen": "pnpify prisma generate",
     "test": "jest --passWithNoTests",
@@ -45,6 +45,7 @@
     "commander": "^9.1.0",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
+    "express-bearer-token": "^2.4.0",
     "express-openapi-validator": "^4.13.7",
     "node-fetch": "^2.0.0",
     "zod": "^3.14.4"

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
 import { PrismaClientKnownRequestError } from '../../prisma/runtime';
-import { paths } from '../api.auto';
+import { paths } from '../apiTypes/api.auto';
+import { parse } from '../auth/parse';
 import { Context } from '../context';
 
 type Req = paths['/account/register']['post']['requestBody']['content']['application/json'];
@@ -26,16 +26,10 @@ export async function register(context: Context, req: Request, res: Response) {
         throw e;
     }
 
-    const authRes = await fetch(`${authUrl}/parse`, {
-        method: 'post',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (authRes.status === 200) {
-        res.send(await authRes.text());
-        return;
+    const token = await parse(authUrl, body);
+    if (token !== null) {
+        res.send(token);
+    } else {
+        throw new Error('auth service failed to generate token');
     }
-
-    throw new Error('auth service failed to generate token');
 }
