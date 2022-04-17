@@ -551,14 +551,15 @@ paths:
                     format: date-time
                   type:
                     type: string
-                    enum: [text, image, video, file]
+                    enum: [text, voice, image, video, file]
                   content:
-                    description: for image, video & file it's the url
+                    description: for voice, image, video, file it's the url
                     oneOf:
                     - type: string
-                      description: for file or text
+                      description: for text, voice, video, file
                     - type: array
-                      description: for video & image
+                      description: for image
+                      maxItems: 30
                       items:
                         type: string
         401:
