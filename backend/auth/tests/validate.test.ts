@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import jwt, {
     JsonWebTokenError, JwtPayload, Secret, VerifyOptions,

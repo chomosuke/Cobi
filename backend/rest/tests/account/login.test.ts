@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import fetch from 'node-fetch';
 import { Context } from '../../src/context';

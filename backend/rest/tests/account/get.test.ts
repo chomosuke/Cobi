@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import { Context } from '../../src/context';
 import { constructApp } from '../../src/constructApp';

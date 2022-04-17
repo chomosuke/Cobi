@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { authenticate } from '../../src/auth/authenticate';
 import { Context } from '../../src/context';
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import fetch from 'node-fetch';
 import { validate } from '../../src/auth/validate';
 

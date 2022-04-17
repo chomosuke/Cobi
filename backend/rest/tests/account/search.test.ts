@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import { searchDB } from '../../src/account/search/searchDB';
 import { constructApp } from '../../src/constructApp';

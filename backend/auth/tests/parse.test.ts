@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import request from 'supertest';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import { PrismaClient } from '../prisma';

@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { Request, Response } from 'express';
 import { validate } from '../../src/auth/validate';
 import { authenticate } from '../../src/auth/authenticate';

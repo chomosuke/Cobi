@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import fetch from 'node-fetch';
 import { parse } from '../../src/auth/parse';
 
