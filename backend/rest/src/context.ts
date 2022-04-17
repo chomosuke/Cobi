@@ -3,9 +3,9 @@ import expressAsyncHandler from 'express-async-handler';
 import { PrismaClient } from '../prisma/index';
 
 export interface Context {
-    prisma: PrismaClient;
-    authUrl: string;
-    debug: boolean;
+    readonly prisma: PrismaClient;
+    readonly authUrl: string;
+    readonly debug: boolean;
 }
 
 export function contextAsyncHandler(
