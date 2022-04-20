@@ -16,9 +16,42 @@ websocket backends will be written in rust (possibly with actix). Rust's perform
 
 Anything written in rust should not access the database, let the auth micro service / rest backend do it.
 
+websockets will be pinged every 12.5 secs
+
 ## database design
 
 - users
     - id
     - username
     - password
+    - profilePictureUrl
+
+- contacts
+    - userId1
+    - userId2
+
+- invites
+    - senderId
+    - recieverId
+    // accepted invites get deleted and become contacts
+    - rejected
+
+- chats
+    - id
+    // application will enforce every contact to have a chat
+    - contactId
+    // check contrait enforce that one and only one of contactId & groupChatId is null
+    // every groupChat has a chat
+    - groupChatId
+
+- groupChats
+    - name
+    - userIds
+
+- messages
+    - chatId
+    - timeSent
+    - timeRecieved
+    - timeRead
+    - type: [text, voice, image, video, file]
+    - content: would be serialized array of url for image.
