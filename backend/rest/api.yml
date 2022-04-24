@@ -274,25 +274,25 @@ paths:
           description: contact with userId does not exist
         401:
           description: unauthorized
-  /contact/block:
-    post:
-      tags:
-      - contact
-      description: block a user
-      requestBody:
-        required: true
-        description: userId
-        content:
-          text/plain:
-            schema:
-              type: string
-      responses:
-        200:
-          description: invite sent
-        401:
-          description: unauthorized
-        404:
-          description: userId does not exist
+  # /contact/block:
+  #   post:
+  #     tags:
+  #     - contact
+  #     description: block a user
+  #     requestBody:
+  #       required: true
+  #       description: userId
+  #       content:
+  #         text/plain:
+  #           schema:
+  #             type: string
+  #     responses:
+  #       200:
+  #         description: invite sent
+  #       401:
+  #         description: unauthorized
+  #       404:
+  #         description: userId does not exist
   /contact/invites/outgoing:
     get:
       tags:
@@ -551,22 +551,35 @@ paths:
               schema:
                 type: object
                 required:
+                - senderId
                 - timeSent
-                - timeRecieved
-                - timeRead
+                - receivers
                 - type
                 - content
                 additionalProperties: false
                 properties:
+                  senderId:
+                    type: string
                   timeSent:
                     type: string
                     format: date-time
-                  timeRecieved:
-                    type: string
-                    format: date-time
-                  timeRead:
-                    type: string
-                    format: date-time
+                  receivers:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - userId
+                      - timeReceived
+                      - timeRead
+                      properties:
+                        userId:
+                          type: string
+                        timeReceived:
+                          type: string
+                          format: date-time
+                        timeRead:
+                          type: string
+                          format: date-time
                   type:
                     type: string
                     enum: [text, voice, image, video, file]
