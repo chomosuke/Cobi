@@ -9,8 +9,83 @@ datasource db {
 }
 
 model users {
-  id                Int     @id @default(autoincrement())
-  username          String  @unique @db.VarChar(128)
-  password          String  @db.VarChar(512)
-  profilePictureUrl String? @db.VarChar(4096)
+  id                                Int                    @id @default(autoincrement())
+  username                          String                 @unique @db.VarChar
+  password                          String                 @db.VarChar
+  profilePictureUrl                 String?                @db.VarChar
+  contacts_contacts_userId1Tousers  contacts[]             @relation("contacts_userId1Tousers")
+  contacts_contacts_userId2Tousers  contacts[]             @relation("contacts_userId2Tousers")
+  groupChatMemberships              groupChatMemberships[]
+  invites_invites_receiverIdTousers invites[]              @relation("invites_receiverIdTousers")
+  invites_invites_senderIdTousers   invites[]              @relation("invites_senderIdTousers")
+  messageReceivers                  messageReceivers[]
+  messages                          messages[]
+}
+
+model contacts {
+  userId1                       Int
+  userId2                       Int
+  chatId                        Int   @unique
+  users_contacts_userId1Tousers users @relation("contacts_userId1Tousers", fields: [userId1], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_contacts_userId2Tousers users @relation("contacts_userId2Tousers", fields: [userId2], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId1, userId2])
+}
+
+model chats {
+  id          Int        @id
+  groupChatId Int        @unique
+  groupChats  groupChats @relation(fields: [groupChatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  messages    messages[]
+}
+
+model groupChatMemberships {
+  groupChatId Int
+  userId      Int
+  groupChats  groupChats @relation(fields: [groupChatId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "groupChatsMemberships_groupChatId_fkey")
+  users       users      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "groupChatsMemberships_userId_fkey")
+
+  @@id([groupChatId, userId], map: "groupChatsMemberships_pkey")
+}
+
+model groupChats {
+  id                   Int                    @id
+  name                 String                 @db.VarChar
+  chats                chats?
+  groupChatMemberships groupChatMemberships[]
+}
+
+model invites {
+  senderId                        Int
+  receiverId                      Int
+  rejected                        Boolean
+  users_invites_receiverIdTousers users   @relation("invites_receiverIdTousers", fields: [receiverId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_invites_senderIdTousers   users   @relation("invites_senderIdTousers", fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([senderId, receiverId])
+}
+
+model messageReceivers {
+  messageId    Int
+  receiverId   Int
+  timeReceived DateTime @db.Timestamp(6)
+  timeRead     DateTime @db.Timestamp(6)
+  messages     messages @relation(fields: [messageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users    @relation(fields: [receiverId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([messageId, receiverId])
+}
+
+model messages {
+  id               Int                @id
+  chatId           Int
+  timeSent         DateTime           @db.Timestamp(6)
+  senderId         Int
+  type             String             @db.VarChar
+  content          String             @db.VarChar
+  chats            chats              @relation(fields: [chatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users            users              @relation(fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  messageReceivers messageReceivers[]
+
+  @@unique([chatId, timeSent])
 }
