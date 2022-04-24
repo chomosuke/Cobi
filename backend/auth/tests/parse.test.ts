@@ -13,11 +13,11 @@ const jwtSign = jwt.sign as jest.MockedFunction<
 ) => string
 >;
 
-type FindFirst = PrismaClient['users']['findFirst'];
+type FindFirst = PrismaClient['user']['findFirst'];
 const mockContext = {
     secret: 'secret',
     prisma: {
-        users: {
+        user: {
             findFirst: jest.fn<Promise<{ id: number } | null>, Parameters<FindFirst>>(),
         },
     },
@@ -28,13 +28,13 @@ const payload = { username: 'username', password: 'somehash' };
 
 describe('parse', () => {
     beforeEach(() => {
-        mockContext.prisma.users.findFirst.mockReset();
+        mockContext.prisma.user.findFirst.mockReset();
         jwtSign.mockReset();
     });
 
     it('should return correct jwt if userId found', async () => {
         const userId = 123;
-        mockContext.prisma.users.findFirst.mockResolvedValue({
+        mockContext.prisma.user.findFirst.mockResolvedValue({
             id: userId,
         });
         const token = 'jwt';
@@ -44,7 +44,7 @@ describe('parse', () => {
             .send(payload);
         expect(res.statusCode).toBe(200);
         expect(res.text).toBe(token);
-        expect(mockContext.prisma.users.findFirst).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.findFirst).toHaveBeenCalledWith({
             where: payload,
             select: {
                 id: true,
@@ -54,7 +54,7 @@ describe('parse', () => {
     });
 
     it('should return 401 if no user found with username & password', async () => {
-        mockContext.prisma.users.findFirst.mockResolvedValue(null);
+        mockContext.prisma.user.findFirst.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/parse')
             .send(payload);

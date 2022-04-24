@@ -9,7 +9,7 @@ export async function parse(context: Context, req: Request, res: Response) {
     const { prisma, secret } = context;
     // eslint-disable-next-line no-restricted-syntax
     const body = req.body as Req;
-    const user = await prisma.users.findFirst({
+    const user = await prisma.user.findFirst({
         where: body,
         select: {
             id: true,
