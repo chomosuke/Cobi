@@ -3,11 +3,11 @@ import { Context } from '../../src/context';
 import { constructApp } from '../../src/constructApp';
 import { PrismaClient } from '../../prisma';
 
-type FindUnique = PrismaClient['users']['findUnique'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: undefined,
     prisma: {
-        users: {
+        user: {
             findUnique: jest.fn<Promise<{ username: string } | null>, Parameters<FindUnique>>(),
         },
     },
@@ -16,18 +16,18 @@ const mockContext = {
 
 describe('get another user\'s account', () => {
     beforeEach(() => {
-        mockContext.prisma.users.findUnique.mockReset();
+        mockContext.prisma.user.findUnique.mockReset();
     });
 
     it('should respond with account info if user is found', async () => {
         const username = 'username';
         const userId = '123';
-        mockContext.prisma.users.findUnique.mockResolvedValue({ username });
+        mockContext.prisma.user.findUnique.mockResolvedValue({ username });
         const res = await request(constructApp(mockContext as unknown as Context))
             .get(`/api/account/${userId}`);
         expect(res.statusCode).toBe(200);
         expect(res.body).toStrictEqual({ username });
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
             where: {
                 id: parseInt(userId, 10),
             },
@@ -42,15 +42,15 @@ describe('get another user\'s account', () => {
         const res = await request(constructApp(mockContext as unknown as Context))
             .get(`/api/account/${userId}`);
         expect(res.statusCode).toBe(404);
-        expect(mockContext.prisma.users.findUnique).not.toHaveBeenCalled();
+        expect(mockContext.prisma.user.findUnique).not.toHaveBeenCalled();
     });
 
     it('should respond with 404 if userId is not found', async () => {
         const userId = '123';
-        mockContext.prisma.users.findUnique.mockResolvedValue(null);
+        mockContext.prisma.user.findUnique.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
             .get(`/api/account/${userId}`);
         expect(res.statusCode).toBe(404);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalled();
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalled();
     });
 });

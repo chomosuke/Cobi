@@ -6,12 +6,12 @@ import { Context } from '../context';
 type Req = paths['/account/profile-picture']['put']['requestBody']['content']['text/plain'];
 export async function profilePicturePut(context: Context, req: Request, res: Response) {
     const { prisma } = context;
-    const previousUrl = (await prisma.users.findUnique({
+    const previousUrl = (await prisma.user.findUnique({
         where: { id: req.userId },
         select: { profilePictureUrl: true },
         rejectOnNotFound: true,
     })).profilePictureUrl;
-    await prisma.users.update({
+    await prisma.user.update({
         where: { id: req.userId },
         select: { id: true },
         // eslint-disable-next-line no-restricted-syntax

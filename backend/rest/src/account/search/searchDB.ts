@@ -1,7 +1,7 @@
 import { PrismaClient } from '../../../prisma';
 
 export async function searchDB(prisma: PrismaClient, username: string) {
-    return (await prisma.users.findMany({
+    return (await prisma.user.findMany({
         select: {
             id: true,
         },

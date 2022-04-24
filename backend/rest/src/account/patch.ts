@@ -12,7 +12,7 @@ export async function patch(context: Context, req: Request, res: Response) {
     const { currentPassword, ...changes } = req.body as Req;
     let user;
     try {
-        user = await prisma.users.findUnique({
+        user = await prisma.user.findUnique({
             where: {
                 id: userId,
             },
@@ -32,7 +32,7 @@ export async function patch(context: Context, req: Request, res: Response) {
         res.sendStatus(401);
         return;
     }
-    user = await prisma.users.update({
+    user = await prisma.user.update({
         where: {
             id: userId,
         },

@@ -11,12 +11,12 @@ const authenticateMock = authenticate as jest.MockedFunction<typeof authenticate
 const userId = 123;
 authenticateMock.mockImplementation(mockAuthenticate(userId));
 
-type Update = PrismaClient['users']['update'];
-type FindUnique = PrismaClient['users']['findUnique'];
+type Update = PrismaClient['user']['update'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: undefined,
     prisma: {
-        users: {
+        user: {
             update: jest.fn<Promise<{ id: number }>, Parameters<Update>>(),
             findUnique: jest.fn<Promise<{ password: string }>, Parameters<FindUnique>>(),
         },
@@ -26,8 +26,8 @@ const mockContext = {
 
 describe('account patch', () => {
     beforeEach(() => {
-        mockContext.prisma.users.update.mockReset();
-        mockContext.prisma.users.findUnique.mockReset();
+        mockContext.prisma.user.update.mockReset();
+        mockContext.prisma.user.findUnique.mockReset();
         authenticateMock.mockClear();
     });
 
@@ -41,8 +41,8 @@ describe('account patch', () => {
             currentPassword: 'currentPassword',
             ...changes,
         };
-        mockContext.prisma.users.update.mockResolvedValue({ id: userId });
-        mockContext.prisma.users.findUnique.mockResolvedValue({
+        mockContext.prisma.user.update.mockResolvedValue({ id: userId });
+        mockContext.prisma.user.findUnique.mockResolvedValue({
             password: payload.currentPassword,
         });
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -50,12 +50,12 @@ describe('account patch', () => {
             .set('Authorization', 'bearer someToken')
             .send(payload);
         expect(res.statusCode).toBe(200);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: { password: true },
             rejectOnNotFound: true,
         });
-        expect(mockContext.prisma.users.update).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: changes,
             select: { id: true },
@@ -69,7 +69,7 @@ describe('account patch', () => {
             username: 'username',
             password: 'password',
         };
-        mockContext.prisma.users.findUnique.mockResolvedValue({
+        mockContext.prisma.user.findUnique.mockResolvedValue({
             password: 'otherPassword',
         });
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -77,7 +77,7 @@ describe('account patch', () => {
             .set('Authorization', 'bearer someToken')
             .send(payload);
         expect(res.statusCode).toBe(401);
-        expect(mockContext.prisma.users.update).not.toHaveBeenCalled();
+        expect(mockContext.prisma.user.update).not.toHaveBeenCalled();
     });
 
     it('should return 409 if username conflicts', async () => {
@@ -86,7 +86,7 @@ describe('account patch', () => {
             username: 'username',
             password: 'password',
         };
-        mockContext.prisma.users.findUnique.mockRejectedValue(
+        mockContext.prisma.user.findUnique.mockRejectedValue(
             new PrismaClientKnownRequestError('test error', 'P2002', 'random version'),
         );
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -94,7 +94,7 @@ describe('account patch', () => {
             .set('Authorization', 'bearer someToken')
             .send(payload);
         expect(res.statusCode).toBe(409);
-        expect(mockContext.prisma.users.update).not.toHaveBeenCalled();
+        expect(mockContext.prisma.user.update).not.toHaveBeenCalled();
     });
 
     it('should throw if an unknown error is thrown by prisma', async () => {
@@ -103,7 +103,7 @@ describe('account patch', () => {
             username: 'username',
             password: 'password',
         };
-        mockContext.prisma.users.findUnique.mockRejectedValue(
+        mockContext.prisma.user.findUnique.mockRejectedValue(
             new PrismaClientKnownRequestError('test error', 'P202', 'random version'),
         );
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -111,6 +111,6 @@ describe('account patch', () => {
             .set('Authorization', 'bearer someToken')
             .send(payload);
         expect(res.statusCode).toBe(500);
-        expect(mockContext.prisma.users.update).not.toHaveBeenCalled();
+        expect(mockContext.prisma.user.update).not.toHaveBeenCalled();
     });
 });

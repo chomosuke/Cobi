@@ -10,12 +10,12 @@ const authenticateMock = authenticate as jest.MockedFunction<typeof authenticate
 const userId = 123;
 authenticateMock.mockImplementation(mockAuthenticate(userId));
 
-type Update = PrismaClient['users']['update'];
-type FindUnique = PrismaClient['users']['findUnique'];
+type Update = PrismaClient['user']['update'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: undefined,
     prisma: {
-        users: {
+        user: {
             update: jest.fn<
             Promise<{ id: number }>,
             Parameters<Update>
@@ -31,14 +31,14 @@ const mockContext = {
 
 describe('put profile picture', () => {
     beforeEach(() => {
-        mockContext.prisma.users.update.mockReset();
-        mockContext.prisma.users.findUnique.mockReset();
+        mockContext.prisma.user.update.mockReset();
+        mockContext.prisma.user.findUnique.mockReset();
         authenticateMock.mockClear();
     });
 
     it('should update profile picture if exist', async () => {
         const profilePictureUrl = 'someUrl';
-        mockContext.prisma.users.findUnique.mockResolvedValue({
+        mockContext.prisma.user.findUnique.mockResolvedValue({
             profilePictureUrl: 'some other url',
         });
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -47,12 +47,12 @@ describe('put profile picture', () => {
             .set('Content-type', 'text/plain')
             .send(profilePictureUrl);
         expect(res.statusCode).toBe(200);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: { profilePictureUrl: true },
             rejectOnNotFound: true,
         });
-        expect(mockContext.prisma.users.update).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: { profilePictureUrl },
             select: { id: true },
@@ -62,7 +62,7 @@ describe('put profile picture', () => {
 
     it('should create profile picture if not exist', async () => {
         const profilePictureUrl = 'someUrl';
-        mockContext.prisma.users.findUnique.mockResolvedValue({
+        mockContext.prisma.user.findUnique.mockResolvedValue({
             profilePictureUrl: null,
         });
         const res = await request(constructApp(mockContext as unknown as Context))
@@ -71,8 +71,8 @@ describe('put profile picture', () => {
             .set('Content-type', 'text/plain')
             .send(profilePictureUrl);
         expect(res.statusCode).toBe(201);
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalled();
-        expect(mockContext.prisma.users.update).toHaveBeenCalled();
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalled();
+        expect(mockContext.prisma.user.update).toHaveBeenCalled();
         expect(authenticateMock).toHaveBeenCalled();
     });
 });

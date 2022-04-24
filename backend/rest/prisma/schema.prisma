@@ -12,7 +12,7 @@ model User {
   id                Int                   @id @default(autoincrement())
   username          String                @unique @db.VarChar
   password          String                @db.VarChar
-  ProfilePictureUrl String?               @map("profile_picture_url") @db.VarChar
+  profilePictureUrl String?               @map("profile_picture_url") @db.VarChar
   contacts1         Contact[]             @relation("contact_user_id1Touser")
   contacts2         Contact[]             @relation("contact_user_id2Touser")
   groupChats        GroupChatMembership[] @relation("group_chat_membershipTouser")

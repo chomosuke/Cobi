@@ -11,7 +11,7 @@ export async function register(context: Context, req: Request, res: Response) {
     // eslint-disable-next-line no-restricted-syntax
     const body = req.body as Req;
     try {
-        await prisma.users.create({
+        await prisma.user.create({
             data: body,
         });
     } catch (e) {

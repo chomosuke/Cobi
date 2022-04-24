@@ -10,11 +10,11 @@ const authenticateMock = authenticate as jest.MockedFunction<typeof authenticate
 const userId = 123;
 authenticateMock.mockImplementation(mockAuthenticate(userId));
 
-type FindUnique = PrismaClient['users']['findUnique'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: undefined,
     prisma: {
-        users: {
+        user: {
             findUnique: jest.fn<Promise<{ username: string } | null>, Parameters<FindUnique>>(),
         },
     },
@@ -23,19 +23,19 @@ const mockContext = {
 
 describe('account get', () => {
     beforeEach(() => {
-        mockContext.prisma.users.findUnique.mockReset();
+        mockContext.prisma.user.findUnique.mockReset();
         authenticateMock.mockClear();
     });
 
     it('should return account info', async () => {
         const username = 'username';
-        mockContext.prisma.users.findUnique.mockResolvedValue({ username });
+        mockContext.prisma.user.findUnique.mockResolvedValue({ username });
         const res = await request(constructApp(mockContext as unknown as Context))
             .get('/api/account')
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(200);
         expect(res.body).toStrictEqual({ username });
-        expect(mockContext.prisma.users.findUnique).toHaveBeenCalledWith({
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: { username: true },
             rejectOnNotFound: true,

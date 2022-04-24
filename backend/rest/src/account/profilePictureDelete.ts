@@ -4,7 +4,7 @@ import { Context } from '../context';
 
 export async function profilePictureDelete(context: Context, req: Request, res: Response) {
     const { prisma } = context;
-    const previousUrl = (await prisma.users.findUnique({
+    const previousUrl = (await prisma.user.findUnique({
         where: { id: req.userId },
         select: { profilePictureUrl: true },
         rejectOnNotFound: true,
@@ -13,7 +13,7 @@ export async function profilePictureDelete(context: Context, req: Request, res: 
         res.sendStatus(204);
         return;
     }
-    await prisma.users.update({
+    await prisma.user.update({
         where: { id: req.userId },
         select: { id: true },
         data: { profilePictureUrl: null },

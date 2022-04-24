@@ -15,7 +15,7 @@ export async function profilePictureGetOther(context: Context, req: Request, res
         res.sendStatus(404);
         return;
     }
-    const user = await prisma.users.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             id,
         },

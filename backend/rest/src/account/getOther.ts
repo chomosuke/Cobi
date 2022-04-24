@@ -15,7 +15,7 @@ export async function getOther(context: Context, req: Request, res: Response) {
         res.sendStatus(404);
         return;
     }
-    const info = await prisma.users.findUnique({
+    const info = await prisma.user.findUnique({
         where: {
             id,
         },
