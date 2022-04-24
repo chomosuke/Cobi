@@ -173,6 +173,7 @@ paths:
           text/plain:
             schema:
               type: string
+              maxLength: 4096
       responses:
         200:
           description: profile picture updated
@@ -366,7 +367,7 @@ paths:
           text/plain:
             schema:
               type: string
-              pattern: '^accept|reject$'
+              enum: [accept, reject]
       responses:
         200:
           description: invite accepted/rejected
@@ -505,16 +506,19 @@ paths:
               properties:
                 type:
                   type: string
-                  enum: [text, image, video, file]
+                  enum: [text, voice, image, video, file]
                 content:
-                  description: for image, video & file it's the url
+                  description: for voice, image, video, file it's the url
                   oneOf:
                   - type: string
-                    description: for file or text
+                    maxLength: 4096
+                    description: for text, voice, video, file
                   - type: array
-                    description: for video & image
+                    description: for image
+                    maxItems: 30
                     items:
                       type: string
+                      maxLength: 4096
       responses:
         200:
           description: message sent
@@ -590,7 +594,6 @@ paths:
                       description: for text, voice, video, file
                     - type: array
                       description: for image
-                      maxItems: 30
                       items:
                         type: string
         401:
