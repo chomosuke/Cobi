@@ -375,6 +375,24 @@ paths:
         404:
           description: invite with userId does not exist
 
+  /chats:
+    get:
+      tags:
+      - chat
+      description: all chats sorted by newest message
+      responses:
+        200:
+          description: all chats sorted in decending order
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: chatId
+        401:
+          description: unauthorized
+
   /messages/{chatId}/older-than/{messageId}:
     get:
       tags:
