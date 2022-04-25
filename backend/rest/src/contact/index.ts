@@ -1,10 +1,12 @@
 import express, { IRouter } from 'express';
-import { Context } from '../context';
+import { authenticate } from '../auth/authenticate';
+import { Context, contextAsyncHandler } from '../context';
+import { getAll } from './getAll';
 
-export function routeContact(_context: Context, api: IRouter) {
+export function routeContact(context: Context, api: IRouter) {
     const contacts = express.Router();
     api.use('/contacts', contacts);
-    contacts.get('');
+    contacts.get('', authenticate(context), contextAsyncHandler(context, getAll));
     const contact = express.Router();
     api.use('/contact', contact);
     contact.get('/:userId');

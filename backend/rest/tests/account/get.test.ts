@@ -15,7 +15,7 @@ const mockContext = {
     authUrl: undefined,
     prisma: {
         user: {
-            findUnique: jest.fn<Promise<{ username: string } | null>, Parameters<FindUnique>>(),
+            findUnique: jest.fn<Promise<{ username: string }>, Parameters<FindUnique>>(),
         },
     },
     debug: true,
