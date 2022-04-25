@@ -15,7 +15,13 @@ const port = z.string().parse(options['port']);
 const authUrl = z.string().parse(options['authUrl']);
 const debug = z.boolean().parse(options['debug']);
 
-constructApp({ prisma: new PrismaClient(), authUrl, debug }).listen(port, () => {
+constructApp({
+    prisma: new PrismaClient({
+        log: debug ? ['query'] : undefined,
+    }),
+    authUrl,
+    debug,
+}).listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`Example app listening on port ${port}`);
 });
