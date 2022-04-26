@@ -32,7 +32,7 @@ export async function patch(context: Context, req: Request, res: Response) {
         res.sendStatus(401);
         return;
     }
-    user = await prisma.user.update({
+    await prisma.user.update({
         where: {
             id: userId,
         },

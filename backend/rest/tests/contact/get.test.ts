@@ -24,6 +24,7 @@ const mockContext = {
 describe('contact get', () => {
     beforeEach(() => {
         mockContext.prisma.contact.findUnique.mockReset();
+        authenticateMock.mockClear();
     });
 
     it.each(['1', '6'])('should respond with chatId if contact with userId %p is found', async (contactUserId) => {
@@ -46,24 +47,27 @@ describe('contact get', () => {
                 chatId: true,
             },
         });
+        expect(authenticateMock).toHaveBeenCalled();
     });
 
     it('should respond with 404 if userId is not a number', async () => {
-        const otherUserId = 'userId';
+        const contactUserId = 'userId';
         const res = await request(constructApp(mockContext as unknown as Context))
-            .get(`/api/contact/${otherUserId}`)
+            .get(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(404);
         expect(mockContext.prisma.contact.findUnique).not.toHaveBeenCalled();
+        expect(authenticateMock).toHaveBeenCalled();
     });
 
     it('should respond with 404 if userId is not found', async () => {
-        const otherUserId = '123';
+        const contactUserId = '123';
         mockContext.prisma.contact.findUnique.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
-            .get(`/api/contact/${otherUserId}`)
+            .get(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(404);
         expect(mockContext.prisma.contact.findUnique).toHaveBeenCalled();
+        expect(authenticateMock).toHaveBeenCalled();
     });
 });

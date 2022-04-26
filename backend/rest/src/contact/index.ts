@@ -1,6 +1,7 @@
 import express, { IRouter } from 'express';
 import { authenticate } from '../auth/authenticate';
 import { Context, contextAsyncHandler } from '../context';
+import { delete$ } from './delete';
 import { get } from './get';
 import { getAll } from './getAll';
 
@@ -11,10 +12,9 @@ export function routeContact(context: Context, api: IRouter) {
     const contact = express.Router();
     api.use('/contact', contact);
     contact.get('/:userId', authenticate(context), contextAsyncHandler(context, get));
-    contact.delete('/:userId');
-    contact.post('/block');
-    contact.get('/invites/outgoing');
-    contact.get('/invite/outgoing');
-    contact.get('/invites/incoming');
-    contact.get('/invite/incoming/:userId');
+    contact.delete('/:userId', authenticate(context), contextAsyncHandler(context, delete$));
+    contact.get('/invites/outgoing', authenticate(context));
+    contact.post('/invite/outgoing', authenticate(context));
+    contact.get('/invites/incoming', authenticate(context));
+    contact.post('/invite/incoming/:userId', authenticate(context));
 }
