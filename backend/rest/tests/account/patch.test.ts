@@ -55,6 +55,7 @@ describe('account patch', () => {
             select: { password: true },
             rejectOnNotFound: true,
         });
+        expect(mockContext.prisma.user.update).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.user.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: changes,

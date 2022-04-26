@@ -43,6 +43,7 @@ describe('register', () => {
             body: JSON.stringify(payload),
             headers: { 'Content-Type': 'application/json' },
         });
+        expect(mockContext.prisma.user.create).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.user.create).toHaveBeenCalledWith({
             data: {
                 ...payload,

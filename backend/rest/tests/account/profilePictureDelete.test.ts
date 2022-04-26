@@ -49,6 +49,7 @@ describe('delete profile picture', () => {
             select: { profilePictureUrl: true },
             rejectOnNotFound: true,
         });
+        expect(mockContext.prisma.user.update).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.user.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: { profilePictureUrl: null },

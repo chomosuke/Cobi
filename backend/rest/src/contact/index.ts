@@ -5,6 +5,7 @@ import { delete$ } from './delete';
 import { get } from './get';
 import { getAll } from './getAll';
 import { getInvitesOutgoing } from './getInvitesOutgoing';
+import { postInviteOutgoing } from './postInviteOutgoing';
 
 export function routeContact(context: Context, api: IRouter) {
     const contacts = express.Router();
@@ -15,7 +16,7 @@ export function routeContact(context: Context, api: IRouter) {
     contact.get('/:userId', authenticate(context), contextAsyncHandler(context, get));
     contact.delete('/:userId', authenticate(context), contextAsyncHandler(context, delete$));
     contact.get('/invites/outgoing', authenticate(context), contextAsyncHandler(context, getInvitesOutgoing));
-    contact.post('/invite/outgoing', authenticate(context));
+    contact.post('/invite/outgoing', authenticate(context), contextAsyncHandler(context, postInviteOutgoing));
     contact.get('/invites/incoming', authenticate(context));
     contact.post('/invite/incoming/:userId', authenticate(context));
 }

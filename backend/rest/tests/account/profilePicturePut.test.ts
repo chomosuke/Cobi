@@ -52,6 +52,7 @@ describe('put profile picture', () => {
             select: { profilePictureUrl: true },
             rejectOnNotFound: true,
         });
+        expect(mockContext.prisma.user.update).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.user.update).toHaveBeenCalledWith({
             where: { id: userId },
             data: { profilePictureUrl },
@@ -72,7 +73,7 @@ describe('put profile picture', () => {
             .send(profilePictureUrl);
         expect(res.statusCode).toBe(201);
         expect(mockContext.prisma.user.findUnique).toHaveBeenCalled();
-        expect(mockContext.prisma.user.update).toHaveBeenCalled();
+        expect(mockContext.prisma.user.update).toHaveBeenCalledTimes(1);
         expect(authenticateMock).toHaveBeenCalled();
     });
 });

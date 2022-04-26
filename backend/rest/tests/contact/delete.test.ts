@@ -43,6 +43,7 @@ describe('contact delete', () => {
         expect(authenticateMock).toHaveBeenCalled();
         expect(res.statusCode).toBe(200);
         const userIds = [parseInt(contactUserId, 10), userId];
+        expect(mockContext.prisma.contact.delete).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.contact.delete).toHaveBeenCalledWith({
             where: {
                 userId1_userId2: {
@@ -54,6 +55,7 @@ describe('contact delete', () => {
                 chatId: true,
             },
         });
+        expect(mockContext.prisma.chat.delete).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.chat.delete).toHaveBeenCalledWith({
             where: {
                 id: chatId,
@@ -83,7 +85,7 @@ describe('contact delete', () => {
             .delete(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(204);
-        expect(mockContext.prisma.contact.delete).toHaveBeenCalled();
+        expect(mockContext.prisma.contact.delete).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.chat.delete).not.toHaveBeenCalled();
     });
 
@@ -96,7 +98,7 @@ describe('contact delete', () => {
             .delete(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(500);
-        expect(mockContext.prisma.contact.delete).toHaveBeenCalled();
+        expect(mockContext.prisma.contact.delete).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.chat.delete).not.toHaveBeenCalled();
     });
 
@@ -108,7 +110,7 @@ describe('contact delete', () => {
             .delete(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(500);
-        expect(mockContext.prisma.contact.delete).toHaveBeenCalled();
-        expect(mockContext.prisma.chat.delete).toHaveBeenCalled();
+        expect(mockContext.prisma.contact.delete).toHaveBeenCalledTimes(1);
+        expect(mockContext.prisma.chat.delete).toHaveBeenCalledTimes(1);
     });
 });
