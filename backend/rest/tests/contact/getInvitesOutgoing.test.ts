@@ -16,11 +16,8 @@ const mockContext = {
     prisma: {
         user: {
             findUnique: jest.fn<Promise<{
-                contacts1: {
-                    userId2: number;
-                }[];
-                contacts2: {
-                    userId1: number;
+                invitesOutgoing: {
+                    receiverId: number;
                 }[];
             }>, Parameters<FindUnique>>(),
         },
@@ -28,46 +25,39 @@ const mockContext = {
     debug: true,
 };
 
-describe('get contacts', () => {
+describe('get outgoing invites', () => {
     beforeEach(() => {
         mockContext.prisma.user.findUnique.mockReset();
         authenticateMock.mockClear();
     });
 
-    it('should return all contacts of user', async () => {
+    it('should return all outgoing invites of user', async () => {
         mockContext.prisma.user.findUnique.mockResolvedValue({
-            contacts1: [
-                { userId2: 5 },
-                { userId2: 6 },
-                { userId2: 7 },
-            ],
-            contacts2: [
-                { userId1: 1 },
-                { userId1: 2 },
-                { userId1: 3 },
+            invitesOutgoing: [
+                { receiverId: 5 },
+                { receiverId: 6 },
+                { receiverId: 7 },
             ],
         });
         const res = await request(constructApp(mockContext as unknown as Context))
-            .get('/api/contacts')
+            .get('/api/contact/invites/outgoing')
             .set('Authorization', 'bearer someToken');
+        expect(authenticateMock).toHaveBeenCalled();
         expect(res.statusCode).toBe(200);
-        expect((res.body as string[]).sort()).toEqual(['1', '2', '3', '5', '6', '7']);
+        expect((res.body as string[]).sort()).toEqual(['5', '6', '7']);
         expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
             where: { id: userId },
             select: {
-                contacts1: {
+                invitesOutgoing: {
                     select: {
-                        userId2: true,
+                        receiverId: true,
                     },
-                },
-                contacts2: {
-                    select: {
-                        userId1: true,
+                    where: {
+                        rejected: false,
                     },
                 },
             },
             rejectOnNotFound: true,
         });
-        expect(authenticateMock).toHaveBeenCalled();
     });
 });
