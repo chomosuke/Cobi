@@ -4,6 +4,7 @@ import { Context, contextAsyncHandler } from '../context';
 import { delete$ } from './delete';
 import { get } from './get';
 import { getAll } from './getAll';
+import { getInvitesIncoming } from './getInvitesIncoming';
 import { getInvitesOutgoing } from './getInvitesOutgoing';
 import { postInviteOutgoing } from './postInviteOutgoing';
 
@@ -17,6 +18,6 @@ export function routeContact(context: Context, api: IRouter) {
     contact.delete('/:userId', authenticate(context), contextAsyncHandler(context, delete$));
     contact.get('/invites/outgoing', authenticate(context), contextAsyncHandler(context, getInvitesOutgoing));
     contact.post('/invite/outgoing', authenticate(context), contextAsyncHandler(context, postInviteOutgoing));
-    contact.get('/invites/incoming', authenticate(context));
+    contact.get('/invites/incoming', authenticate(context), contextAsyncHandler(context, getInvitesIncoming));
     contact.post('/invite/incoming/:userId', authenticate(context));
 }
