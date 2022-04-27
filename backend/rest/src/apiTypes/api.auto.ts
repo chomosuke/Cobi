@@ -123,6 +123,10 @@ export interface paths {
             "text/plain": string;
           };
         };
+        /** unauthorized */
+        401: unknown;
+        /** there is no profile picture for this user */
+        404: unknown;
       };
     };
     /** set profile picture for current user */
@@ -130,6 +134,8 @@ export interface paths {
       responses: {
         /** profile picture updated */
         200: unknown;
+        /** profile picture created */
+        201: unknown;
         /** unauthorized */
         401: unknown;
       };
@@ -227,25 +233,6 @@ export interface paths {
       };
     };
   };
-  "/contact/block": {
-    /** block a user */
-    post: {
-      responses: {
-        /** invite sent */
-        200: unknown;
-        /** unauthorized */
-        401: unknown;
-        /** userId does not exist */
-        404: unknown;
-      };
-      /** userId */
-      requestBody: {
-        content: {
-          "text/plain": string;
-        };
-      };
-    };
-  };
   "/contact/invites/outgoing": {
     /** get all outgoing invite for the current user */
     get: {
@@ -313,8 +300,23 @@ export interface paths {
       };
       requestBody: {
         content: {
-          "text/plain": string;
+          "text/plain": "accept" | "reject";
         };
+      };
+    };
+  };
+  "/chats": {
+    /** all chats sorted by newest message */
+    get: {
+      responses: {
+        /** all chats sorted in decending order */
+        200: {
+          content: {
+            "application/json": string[];
+          };
+        };
+        /** unauthorized */
+        401: unknown;
       };
     };
   };
@@ -410,8 +412,8 @@ export interface paths {
         content: {
           "application/json": {
             /** @enum {string} */
-            type: "text" | "image" | "video" | "file";
-            /** @description for image, video & file it's the url */
+            type: "text" | "voice" | "image" | "video" | "file";
+            /** @description for voice, image, video, file it's the url */
             content: string | string[];
           };
         };
@@ -432,15 +434,19 @@ export interface paths {
         200: {
           content: {
             "application/json": {
+              senderId: string;
               /** Format: date-time */
               timeSent: string;
-              /** Format: date-time */
-              timeRecieved: string;
-              /** Format: date-time */
-              timeRead: string;
+              receivers: {
+                userId: string;
+                /** Format: date-time */
+                timeReceived: string;
+                /** Format: date-time */
+                timeRead: string;
+              }[];
               /** @enum {string} */
-              type: "text" | "image" | "video" | "file";
-              /** @description for image, video & file it's the url */
+              type: "text" | "voice" | "image" | "video" | "file";
+              /** @description for voice, image, video, file it's the url */
               content: string | string[];
             };
           };

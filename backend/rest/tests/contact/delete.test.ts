@@ -102,7 +102,7 @@ describe('contact delete', () => {
         expect(mockContext.prisma.chat.delete).not.toHaveBeenCalled();
     });
 
-    it('should throw deleted chat have groupChatId', async () => {
+    it('should throw if deleted chat have groupChatId', async () => {
         const contactUserId = '123';
         mockContext.prisma.contact.delete.mockResolvedValue({ chatId });
         mockContext.prisma.chat.delete.mockResolvedValue({ groupChatId: 1 });

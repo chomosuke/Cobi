@@ -82,4 +82,18 @@ describe('send invites', () => {
         expect(res.statusCode).toBe(404);
         expect(mockContext.prisma.invite.upsert).toHaveBeenCalledTimes(1);
     });
+
+    it('should throw if random error is thrown by invite.upsert', async () => {
+        const receiverId = 2;
+        mockContext.prisma.invite.upsert.mockRejectedValue(
+            new PrismaClientKnownRequestError('test error', 'P2005', 'random version'),
+        );
+        const res = await request(constructApp(mockContext as unknown as Context))
+            .post('/api/contact/invite/outgoing')
+            .set('Authorization', 'bearer someToken')
+            .set('Content-type', 'text/plain')
+            .send(`${receiverId}`);
+        expect(res.statusCode).toBe(500);
+        expect(mockContext.prisma.invite.upsert).toHaveBeenCalledTimes(1);
+    });
 });
