@@ -15,5 +15,6 @@
 
 /prisma/*
 !/prisma/schema.prisma
+/node_modules
 
 /coverage

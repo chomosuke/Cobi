@@ -53,7 +53,7 @@ model Invite {
 }
 
 model Chat {
-  id          Int        @id
+  id          Int        @id @default(autoincrement())
   groupChatId Int?       @unique @map("group_chat_id")
   groupChat   GroupChat? @relation(fields: [groupChatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   contact     Contact?
@@ -64,7 +64,7 @@ model Chat {
 }
 
 model GroupChat {
-  id          Int                   @id
+  id          Int                   @id @default(autoincrement())
   name        String                @db.VarChar
   chat        Chat?
   memberships GroupChatMembership[]
@@ -85,7 +85,7 @@ model GroupChatMembership {
 }
 
 model Message {
-  id        Int               @id
+  id        Int               @id @default(autoincrement())
   chatId    Int               @map("chat_id")
   timeSent  DateTime          @map("time_sent") @db.Timestamp(6)
   senderId  Int               @map("sender_id")
