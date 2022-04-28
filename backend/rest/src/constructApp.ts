@@ -6,6 +6,7 @@ import { Context } from './context';
 import { routeAccount } from './account';
 import { routeContact } from './contact';
 import { routeMessage } from './message';
+import { routeChat } from './chat';
 
 export function constructApp(context: Context) {
     const app = express();
@@ -19,6 +20,7 @@ export function constructApp(context: Context) {
         validateResponses: context.debug,
     }));
     routeAccount(context, api);
+    routeChat(context, api);
     routeContact(context, api);
     routeMessage(context, api);
 

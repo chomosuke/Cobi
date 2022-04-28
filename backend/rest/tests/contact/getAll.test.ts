@@ -10,7 +10,7 @@ const authenticateMock = authenticate as jest.MockedFunction<typeof authenticate
 const userId = 4;
 authenticateMock.mockImplementation(mockAuthenticate(userId));
 
-type FindUnique = PrismaClient['contact']['findUnique'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: undefined,
     prisma: {
