@@ -75,13 +75,13 @@ type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
 fn user_connected(users: Users) -> impl Stream<Item = Result<Event, warp::Error>> + Send + 'static {
     // Use a counter to assign a new unique ID for this user.
-let my_id = NEXT_USER_ID.fetch_add(1, Ordering::Relaxed);
+    let my_id = NEXT_USER_ID.fetch_add(1, Ordering::Relaxed);
 
     eprintln!("new chat user: {}", my_id);
 
     // Use an unbounded channel to handle buffering and flushing of messages
     // to the event source...
-    let (tx,rx) = mpsc::unbounded_channel();
+    let (tx, rx) = mpsc::unbounded_channel();
     let rx = UnboundedReceiverStream::new(rx);
 
     tx.send(Message::UserId(my_id))
