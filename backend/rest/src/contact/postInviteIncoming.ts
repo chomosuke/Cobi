@@ -5,7 +5,9 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Params = paths['/contact/invite/incoming/{userId}']['post']['parameters']['path'];
+
 type Req = paths['/contact/invite/incoming/{userId}']['post']['requestBody']['content']['text/plain'];
+
 export async function postInviteIncoming(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     const { userId } = req;

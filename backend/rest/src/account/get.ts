@@ -4,6 +4,7 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Res = paths['/account']['get']['responses']['200']['content']['application/json'];
+
 export async function get(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     const user = await prisma.user.findUnique({

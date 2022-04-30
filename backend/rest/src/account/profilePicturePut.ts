@@ -4,6 +4,7 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Req = paths['/account/profile-picture']['put']['requestBody']['content']['text/plain'];
+
 export async function profilePicturePut(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     const previousUrl = (await prisma.user.findUnique({

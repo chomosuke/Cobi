@@ -6,6 +6,7 @@ import { Context } from '../context';
 import { DataIntegrityError } from '../errors';
 
 type Params = paths['/contact/{userId}']['delete']['parameters']['path'];
+
 export async function delete$(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     // eslint-disable-next-line no-restricted-syntax

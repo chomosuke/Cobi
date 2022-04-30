@@ -5,6 +5,7 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Req = paths['/contact/invite/outgoing']['post']['requestBody']['content']['text/plain'];
+
 export async function postInviteOutgoing(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     const { userId } = req;

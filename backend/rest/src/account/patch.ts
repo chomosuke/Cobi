@@ -5,6 +5,7 @@ import { paths } from '../apiTypes/api.auto';
 import { PrismaClientKnownRequestError } from '../../prisma/runtime';
 
 type Req = paths['/account']['patch']['requestBody']['content']['application/json'];
+
 export async function patch(context: Context, req: Request, res: Response) {
     const { userId } = req;
     const { prisma } = context;

@@ -4,6 +4,7 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Res = paths['/contact/invites/outgoing']['get']['responses']['200']['content']['application/json'];
+
 export async function getInvitesOutgoing(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     const { userId } = req;

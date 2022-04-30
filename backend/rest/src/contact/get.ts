@@ -4,7 +4,9 @@ import '../auth/authenticate';
 import { Context } from '../context';
 
 type Params = paths['/contact/{userId}']['get']['parameters']['path'];
+
 type Res = paths['/contact/{userId}']['get']['responses']['200']['content']['application/json'];
+
 export async function get(context: Context, req: Request, res: Response) {
     const { prisma } = context;
     // eslint-disable-next-line no-restricted-syntax
