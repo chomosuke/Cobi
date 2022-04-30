@@ -102,7 +102,7 @@ fn user_message(my_id: usize, msg: String, users: &Users) {
     let new_msg = format!("<User#{}>: {}", my_id, msg);
 
     // New message from this user, send it to everyone else (except same uid)...
-    //
+
     // We use `retain` instead of a for loop so that we can reap any user that
     // appears to have disconnected.
     users.lock().unwrap().retain(|uid, tx| {
