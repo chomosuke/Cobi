@@ -447,9 +447,12 @@ dependencies = [
 
 [[package]]
 name = "notif"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
+ "bytes",
+ "futures-util",
  "tokio",
+ "tokio-stream",
  "warp",
 ]
 
