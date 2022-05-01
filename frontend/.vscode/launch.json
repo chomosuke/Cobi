@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "windows",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "web",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome"
+        }
+    ]
+}
