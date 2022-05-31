@@ -3,9 +3,9 @@ import express from 'express';
 import * as OpenApiValidator from 'express-openapi-validator';
 import path from 'path/posix';
 import expressAsyncHandler from 'express-async-handler';
-import { parse } from './parse';
+import { getToken } from './getToken';
 import { Context } from './context';
-import { validate } from './validate';
+import { validateToken } from './validateToken';
 
 export function constructApp(context: Context) {
     const app = express();
@@ -19,9 +19,9 @@ export function constructApp(context: Context) {
         validateResponses: context.debug,
     }));
 
-    api.post('/parse', expressAsyncHandler((req, res) => parse(context, req, res)));
+    api.post('/get-token', expressAsyncHandler((req, res) => getToken(context, req, res)));
 
-    api.post('/validate', expressAsyncHandler((req, res) => validate(context, req, res)));
+    api.post('/validate-token', expressAsyncHandler((req, res) => validateToken(context, req, res)));
 
     return app;
 }

@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { Context } from './context';
 import { paths } from './api.auto';
 
-type Req = paths['/validate']['post']['requestBody']['content']['text/plain'];
+type Req = paths['/validate-token']['post']['requestBody']['content']['text/plain'];
 
-export function validate(context: Context, req: Request, res: Response) {
+export function validateToken(context: Context, req: Request, res: Response) {
     // eslint-disable-next-line no-restricted-syntax
     const token = req.body as Req;
     let userId;

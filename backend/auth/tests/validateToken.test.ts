@@ -20,7 +20,7 @@ const mockContext = {
     debug: true,
 };
 
-describe('validate', () => {
+describe('validateToken', () => {
     beforeEach(() => {
         jwtVerify.mockReset();
     });
@@ -31,7 +31,7 @@ describe('validate', () => {
         });
         const token = 'token';
         const res = await request(constructApp(mockContext as unknown as Context))
-            .post('/validate')
+            .post('/validate-token')
             .set('Content-type', 'text/plain')
             .send(token);
         expect(res.statusCode).toBe(401);
@@ -42,7 +42,7 @@ describe('validate', () => {
         jwtVerify.mockReturnValue({ userId });
         const token = 'token';
         const res = await request(constructApp(mockContext as unknown as Context))
-            .post('/validate')
+            .post('/validate-token')
             .set('Content-type', 'text/plain')
             .send(token);
         expect(res.statusCode).toBe(200);
@@ -52,7 +52,7 @@ describe('validate', () => {
     it('should use jwt.verify with correct parameters', async () => {
         const token = 'token';
         await request(constructApp(mockContext as unknown as Context))
-            .post('/validate')
+            .post('/validate-token')
             .set('Content-type', 'text/plain')
             .send('token');
         expect(jwtVerify).toHaveBeenCalledWith(token, mockContext.secret, { maxAge: '1y' });
@@ -65,7 +65,7 @@ describe('validate', () => {
         });
         const token = 'token';
         const res = await request(constructApp(mockContext as unknown as Context))
-            .post('/validate')
+            .post('/validate-token')
             .set('Content-type', 'text/plain')
             .send(token);
         expect(res.statusCode).toBe(500);

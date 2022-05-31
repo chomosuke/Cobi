@@ -7,39 +7,7 @@ info:
 servers:
   - url: '{host}'
 paths:
-  /parse:
-    post:
-      description: validate username & password and return a token.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - username
-              - password
-              additionalProperties: false
-              properties:
-                username:
-                  type: string
-                  minLength: 1
-                  maxLength: 128
-                password:
-                  type: string
-                  format: password
-                  maxLength: 512
-      responses:
-        200:
-          description: success
-          content:
-            text/plain:
-              schema:
-                type: string
-                description: bearer token
-        401:
-          description: failure
-  /validate:
+  /validate-token:
     post:
       description: validate a token & return the userId
       requestBody:
@@ -55,7 +23,90 @@ paths:
           content:
             text/plain:
               schema:
-                type: string
+                type: number
                 description: userId
         401:
           description: failure
+  /get-token:
+    post:
+      description: validate userId & password and return a token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - userId
+              - password
+              additionalProperties: false
+              properties:
+                userId:
+                  type: number
+                password:
+                  type: string
+                  format: password
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: bearer token
+        401:
+          description: failure
+  /add-user:
+    post:
+      description: add a userId-password combination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - password
+              additionalProperties: false
+              properties:
+                password:
+                  type: string
+                  format: password
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: number
+                description: userId
+        400:
+          description: userId too big
+  /change-password:
+    patch:
+      description: change the password for a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - userId
+              - currentPassword
+              - newPassword
+              additionalProperties: false
+              properties:
+                userId:
+                  type: number
+                currentPassword:
+                  type: string
+                  format: password
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        200:
+          description: success
+        401:
+          description: unauthenticated
