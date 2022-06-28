@@ -6,6 +6,7 @@ import expressAsyncHandler from 'express-async-handler';
 import { getToken } from './getToken';
 import { Context } from './context';
 import { validateToken } from './validateToken';
+import { addUser } from './addUser';
 
 export function constructApp(context: Context) {
     const app = express();
@@ -19,9 +20,15 @@ export function constructApp(context: Context) {
         validateResponses: context.debug,
     }));
 
-    api.post('/get-token', expressAsyncHandler((req, res) => getToken(context, req, res)));
-
-    api.post('/validate-token', expressAsyncHandler((req, res) => validateToken(context, req, res)));
+    api.post('/validate-token', expressAsyncHandler(
+        (req, res) => validateToken(context, req, res),
+    ));
+    api.post('/get-token', expressAsyncHandler(
+        (req, res) => getToken(context, req, res),
+    ));
+    api.post('/add-user', expressAsyncHandler(
+        (req, res) => addUser(context, req, res),
+    ));
 
     return app;
 }

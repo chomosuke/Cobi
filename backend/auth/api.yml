@@ -80,8 +80,6 @@ paths:
               schema:
                 type: number
                 description: userId
-        400:
-          description: userId too big
   /change-password:
     patch:
       description: change the password for a user
