@@ -7,6 +7,7 @@ import { getToken } from './getToken';
 import { Context } from './context';
 import { validateToken } from './validateToken';
 import { addUser } from './addUser';
+import { changePassword } from './changePassword';
 
 export function constructApp(context: Context) {
     const app = express();
@@ -28,6 +29,9 @@ export function constructApp(context: Context) {
     ));
     api.post('/add-user', expressAsyncHandler(
         (req, res) => addUser(context, req, res),
+    ));
+    api.patch('/change-password', expressAsyncHandler(
+        (req, res) => changePassword(context, req, res),
     ));
 
     return app;

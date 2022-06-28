@@ -108,3 +108,5 @@ paths:
           description: success
         401:
           description: unauthenticated
+        404:
+          description: userId not found
