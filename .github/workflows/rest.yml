@@ -15,13 +15,20 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - id: cache
+    - id: cache-yarn
+      uses: actions/cache@v3
+      with:
+        path: ./backend/rest/.yarn/unplugged/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/yarn.lock') }}
+    - if: steps.cache-yarn.outputs.cache-hit != 'true'
+      run: yarn
+    - id: cache-prisma
       uses: actions/cache@v3
       with:
         path: ./backend/rest/prisma/
         key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/prisma/schema.prisma') }}
-    - if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn && yarn prisma-gen
+    - if: steps.cache-prisma.outputs.cache-hit != 'true'
+      run: yarn prisma-gen
     - run: yarn build
   lint:
     runs-on: ubuntu-latest
@@ -31,13 +38,20 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - id: cache
+    - id: cache-yarn
+      uses: actions/cache@v3
+      with:
+        path: ./backend/rest/.yarn/unplugged/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/yarn.lock') }}
+    - if: steps.cache-yarn.outputs.cache-hit != 'true'
+      run: yarn
+    - id: cache-prisma
       uses: actions/cache@v3
       with:
         path: ./backend/rest/prisma/
         key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/prisma/schema.prisma') }}
-    - if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn && yarn prisma-gen
+    - if: steps.cache-prisma.outputs.cache-hit != 'true'
+      run: yarn prisma-gen
     - run: yarn lint
   test:
     runs-on: ubuntu-latest
@@ -47,11 +61,18 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - id: cache
+    - id: cache-yarn
+      uses: actions/cache@v3
+      with:
+        path: ./backend/rest/.yarn/unplugged/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/yarn.lock') }}
+    - if: steps.cache-yarn.outputs.cache-hit != 'true'
+      run: yarn
+    - id: cache-prisma
       uses: actions/cache@v3
       with:
         path: ./backend/rest/prisma/
         key: ${{ runner.os }}-cargo-${{ hashFiles('./backend/rest/prisma/schema.prisma') }}
-    - if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn && yarn prisma-gen
+    - if: steps.cache-prisma.outputs.cache-hit != 'true'
+      run: yarn prisma-gen
     - run: yarn test
