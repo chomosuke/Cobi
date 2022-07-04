@@ -25,4 +25,12 @@ describe('add user', () => {
             headers: { 'Content-Type': 'application/json' },
         });
     });
+
+    it('should throw if status is not 200', async () => {
+        mockFetch.mockResolvedValue({
+            text: async () => { throw new Error('this should not be read'); },
+            status: 500,
+        } as unknown as Awaited<ReturnType<typeof fetch>>);
+        await expect(addUser(authUrl, payload)).rejects.toStrictEqual(expect.anything());
+    });
 });
