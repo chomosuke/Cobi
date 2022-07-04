@@ -15,7 +15,7 @@ const mockContext = {
     authUrl: undefined,
     prisma: {
         contact: {
-            findUnique: jest.fn<Promise<{ chatId: string } | null>, Parameters<FindUnique>>(),
+            findUnique: jest.fn<Promise<{ chatId: number } | null>, Parameters<FindUnique>>(),
         },
     },
     debug: true,
@@ -28,13 +28,13 @@ describe('contact get', () => {
     });
 
     it.each(['1', '6'])('should respond with chatId if contact with userId %p is found', async (contactUserId) => {
-        const chatId = '123';
+        const chatId = 123;
         mockContext.prisma.contact.findUnique.mockResolvedValue({ chatId });
         const res = await request(constructApp(mockContext as unknown as Context))
             .get(`/api/contact/${contactUserId}`)
             .set('Authorization', 'bearer someToken');
         expect(res.statusCode).toBe(200);
-        expect(res.body).toStrictEqual({ chatId });
+        expect(res.body).toStrictEqual({ chatId: chatId.toString() });
         const userIds = [parseInt(contactUserId, 10), userId];
         expect(mockContext.prisma.contact.findUnique).toHaveBeenCalledWith({
             where: {
