@@ -12,5 +12,5 @@ export async function addUser(authUrl: string, payload: Payload) {
     if (authRes.status === 200) {
         return parseInt(await authRes.text(), 10);
     }
-    throw Error('auth service parse returned the wrong status code');
+    throw Error('auth service add-user returned the wrong status code');
 }

@@ -15,5 +15,5 @@ export async function getToken(authUrl: string, payload: Payload) {
     if (authRes.status === 401) {
         return null;
     }
-    throw Error('auth service parse returned the wrong status code');
+    throw Error('auth service get-token returned the wrong status code');
 }

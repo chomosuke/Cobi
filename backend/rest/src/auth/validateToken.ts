@@ -15,5 +15,5 @@ export async function validateToken(authUrl: string, token: Token) {
     if (authRes.status === 401) {
         return null;
     }
-    throw Error('auth service validate returned the wrong status code');
+    throw Error('auth service validate-token returned the wrong status code');
 }
