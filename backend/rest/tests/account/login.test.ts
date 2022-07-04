@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getToken } from '../../src/auth/getToken'
+import { getToken } from '../../src/auth/getToken';
 import { Context } from '../../src/context';
 import { constructApp } from '../../src/constructApp';
 import { PrismaClient } from '../../prisma';
@@ -50,7 +50,7 @@ describe('login', () => {
         );
     });
 
-    it('should return 401 if user not found', async() => {
+    it('should return 401 if user not found', async () => {
         mockContext.prisma.user.findUnique.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/login')

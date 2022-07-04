@@ -12,7 +12,7 @@ export async function login(context: Context, req: Request, res: Response) {
     const user = await prisma.user.findUnique({
         select: { id: true },
         where: { username },
-    })
+    });
     if (user === null) {
         // username incorrect
         res.sendStatus(401);
