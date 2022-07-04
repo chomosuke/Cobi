@@ -10,7 +10,7 @@ export async function addUser(authUrl: string, payload: Payload) {
         headers: { 'Content-Type': 'application/json' },
     });
     if (authRes.status === 200) {
-        return parseInt(await authRes.text());
+        return parseInt(await authRes.text(), 10);
     }
     throw Error('auth service parse returned the wrong status code');
 }

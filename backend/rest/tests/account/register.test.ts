@@ -1,19 +1,24 @@
 import request from 'supertest';
-import fetch from 'node-fetch';
+import { addUser } from '../../src/auth/addUser';
 import { PrismaClient } from '../../prisma';
 import { Context } from '../../src/context';
 import { constructApp } from '../../src/constructApp';
-import { PrismaClientKnownRequestError } from '../../prisma/runtime';
+import { getToken } from '../../src/auth/getToken';
 
-jest.mock('node-fetch');
-const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+jest.mock('../../src/auth/addUser');
+const mockAddUser = addUser as jest.MockedFunction<typeof addUser>;
+
+jest.mock('../../src/auth/getToken');
+const mockGetToken = getToken as jest.MockedFunction<typeof getToken>;
 
 type Create = PrismaClient['user']['create'];
+type FindUnique = PrismaClient['user']['findUnique'];
 const mockContext = {
     authUrl: 'https://somehost',
     prisma: {
         user: {
             create: jest.fn<ReturnType<Create>, Parameters<Create>>(),
+            findUnique: jest.fn<Promise<{ id: number } | null>, Parameters<FindUnique>>(),
         },
     },
     debug: true,
@@ -25,60 +30,67 @@ const authToken = 'authToken';
 describe('register', () => {
     beforeEach(() => {
         mockContext.prisma.user.create.mockReset();
-        mockFetch.mockReset();
+        mockContext.prisma.user.findUnique.mockReset();
+        mockAddUser.mockReset();
+        mockGetToken.mockReset();
     });
 
     it('should return token if everything succeed', async () => {
-        mockFetch.mockResolvedValue({
-            text: () => Promise.resolve(authToken),
-            status: 200,
-        } as Awaited<ReturnType<typeof fetch>>);
+        mockContext.prisma.user.findUnique.mockResolvedValue(null);
+        const userId = 12;
+        mockAddUser.mockResolvedValue(userId);
+        mockGetToken.mockResolvedValue(authToken);
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);
         expect(res.statusCode).toBe(200);
         expect(res.text).toBe(authToken);
-        expect(mockFetch).toHaveBeenCalledWith(`${mockContext.authUrl}/parse`, {
-            method: 'post',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' },
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalledWith({
+            select: { id: true },
+            where: { username: payload.username },
         });
+        expect(mockAddUser).toHaveBeenCalledTimes(1);
+        expect(mockAddUser).toHaveBeenCalledWith(
+            mockContext.authUrl,
+            { password: payload.password },
+        );
         expect(mockContext.prisma.user.create).toHaveBeenCalledTimes(1);
         expect(mockContext.prisma.user.create).toHaveBeenCalledWith({
             data: {
-                ...payload,
+                id: userId,
+                username: payload.username,
             },
         });
+        expect(mockGetToken).toHaveBeenCalledWith(
+            mockContext.authUrl,
+            { userId, password: payload.password },
+        );
     });
 
     it('should return 409 if conflicted', async () => {
-        mockContext.prisma.user.create.mockRejectedValue(
-            new PrismaClientKnownRequestError('test error', 'P2002', 'random version'),
-        );
+        mockContext.prisma.user.findUnique.mockResolvedValue({ id: 1 });
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);
         expect(res.statusCode).toBe(409);
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalled();
+        expect(mockAddUser).not.toHaveBeenCalled();
+        expect(mockContext.prisma.user.create).not.toHaveBeenCalled();
+        expect(mockGetToken).not.toHaveBeenCalled();
     });
 
     it('should throw if auth service doesn\'t return 200', async () => {
-        mockFetch.mockResolvedValue({
-            text: () => Promise.resolve(authToken),
-            status: 401,
-        } as Awaited<ReturnType<typeof fetch>>);
+        mockContext.prisma.user.findUnique.mockResolvedValue(null);
+        const userId = 12;
+        mockAddUser.mockResolvedValue(userId);
+        mockGetToken.mockResolvedValue(null);
         const res = await request(constructApp(mockContext as unknown as Context))
             .post('/api/account/register')
             .send(payload);
         expect(res.statusCode).toBe(500);
-    });
-
-    it('should throw if prisma client throw error that\'s not unique index error', async () => {
-        mockContext.prisma.user.create.mockRejectedValue(
-            new PrismaClientKnownRequestError('test error', 'P2202', 'random version'),
-        );
-        const res = await request(constructApp(mockContext as unknown as Context))
-            .post('/api/account/register')
-            .send(payload);
-        expect(res.statusCode).toBe(500);
+        expect(mockContext.prisma.user.findUnique).toHaveBeenCalled();
+        expect(mockAddUser).toHaveBeenCalled();
+        expect(mockContext.prisma.user.create).toHaveBeenCalled();
+        expect(mockGetToken).toHaveBeenCalled();
     });
 });
