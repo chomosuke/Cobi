@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
 import { paths } from '../apiTypes/apiAuth.auto';
 
-type Payload = paths['/parse']['post']['requestBody']['content']['application/json'];
+type Payload = paths['/get-token']['post']['requestBody']['content']['application/json'];
 
-export async function parse(authUrl: string, payload: Payload) {
-    const authRes = await fetch(`${authUrl}/parse`, {
+export async function getToken(authUrl: string, payload: Payload) {
+    const authRes = await fetch(`${authUrl}/get-token`, {
         method: 'post',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },

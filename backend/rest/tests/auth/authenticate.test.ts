@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { validate } from '../../src/auth/validate';
+import { validateToken } from '../../src/auth/validateToken';
 import { authenticate } from '../../src/auth/authenticate';
 import { Context } from '../../src/context';
 
-jest.mock('../../src/auth/validate');
-const mockValidate = validate as jest.MockedFunction<typeof validate>;
+jest.mock('../../src/auth/validateToken');
+const mockValidate = validateToken as jest.MockedFunction<typeof validateToken>;
 const next = jest.fn<void, []>();
 
 const mockReq: {
@@ -37,7 +37,7 @@ describe('authenticate middleware', () => {
     });
 
     it('should call next if authenticated', async () => {
-        const userId = '123';
+        const userId = 123;
         mockValidate.mockResolvedValue(userId);
         await new Promise<void>((res, _rej) => {
             authenticateWithToken(
@@ -47,7 +47,7 @@ describe('authenticate middleware', () => {
             );
         });
         expect(next).toHaveBeenCalledTimes(1);
-        expect(mockReq.userId).toBe(parseInt(userId, 10));
+        expect(mockReq.userId).toBe(userId);
         expect(sendStatus).not.toHaveBeenCalled();
         expect(mockValidate).toHaveBeenCalledWith(mockContext.authUrl, mockReq.token);
     });

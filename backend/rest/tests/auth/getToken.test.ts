@@ -1,14 +1,14 @@
 import fetch from 'node-fetch';
-import { parse } from '../../src/auth/parse';
+import { getToken } from '../../src/auth/getToken';
 
 jest.mock('node-fetch');
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 
-const payload = { username: 'username', password: 'somehash' };
+const payload = { userId: 123, password: 'somehash' };
 const authToken = 'authToken';
 const authUrl = 'https://somehost';
 
-describe('parse token', () => {
+describe('get token', () => {
     beforeEach(() => {
         mockFetch.mockReset();
     });
@@ -18,8 +18,8 @@ describe('parse token', () => {
             text: () => Promise.resolve(authToken),
             status: 200,
         } as Awaited<ReturnType<typeof fetch>>);
-        expect(await parse(authUrl, payload)).toBe(authToken);
-        expect(mockFetch).toHaveBeenCalledWith(`${authUrl}/parse`, {
+        expect(await getToken(authUrl, payload)).toBe(authToken);
+        expect(mockFetch).toHaveBeenCalledWith(`${authUrl}/get-token`, {
             method: 'post',
             body: JSON.stringify(payload),
             headers: { 'Content-Type': 'application/json' },
@@ -31,7 +31,7 @@ describe('parse token', () => {
             text: async () => { throw new Error('this should not be read'); },
             status: 401,
         } as unknown as Awaited<ReturnType<typeof fetch>>);
-        expect(await parse(authUrl, payload)).toBeNull();
+        expect(await getToken(authUrl, payload)).toBeNull();
     });
 
     it('should throw if status is not 401 or 200', async () => {
@@ -39,6 +39,6 @@ describe('parse token', () => {
             text: async () => { throw new Error('this should not be read'); },
             status: 500,
         } as unknown as Awaited<ReturnType<typeof fetch>>);
-        await expect(parse(authUrl, payload)).rejects.toStrictEqual(expect.anything());
+        await expect(getToken(authUrl, payload)).rejects.toStrictEqual(expect.anything());
     });
 });

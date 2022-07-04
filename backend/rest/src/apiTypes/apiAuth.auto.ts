@@ -4,8 +4,28 @@
  */
 
 export interface paths {
-  "/parse": {
-    /** validate username & password and return a token. */
+  "/validate-token": {
+    /** validate a token & return the userId */
+    post: {
+      responses: {
+        /** success */
+        200: {
+          content: {
+            "text/plain": number;
+          };
+        };
+        /** failure */
+        401: unknown;
+      };
+      requestBody: {
+        content: {
+          "text/plain": string;
+        };
+      };
+    };
+  };
+  "/get-token": {
+    /** validate userId & password and return a token. */
     post: {
       responses: {
         /** success */
@@ -20,7 +40,7 @@ export interface paths {
       requestBody: {
         content: {
           "application/json": {
-            username: string;
+            userId: number;
             /** Format: password */
             password: string;
           };
@@ -28,22 +48,47 @@ export interface paths {
       };
     };
   };
-  "/validate": {
-    /** validate a token & return the userId */
+  "/add-user": {
+    /** add a userId-password combination */
     post: {
       responses: {
         /** success */
         200: {
           content: {
-            "text/plain": string;
+            "text/plain": number;
           };
         };
-        /** failure */
+        /** userId too big */
+        400: unknown;
+      };
+      requestBody: {
+        content: {
+          "application/json": {
+            /** Format: password */
+            password: string;
+          };
+        };
+      };
+    };
+  };
+  "/change-password": {
+    /** change the password for a user */
+    patch: {
+      responses: {
+        /** success */
+        200: unknown;
+        /** unauthenticated */
         401: unknown;
       };
       requestBody: {
         content: {
-          "text/plain": string;
+          "application/json": {
+            userId: number;
+            /** Format: password */
+            currentPassword: string;
+            /** Format: password */
+            newPassword: string;
+          };
         };
       };
     };

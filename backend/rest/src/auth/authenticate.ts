@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import bearerToken from 'express-bearer-token';
 import { Context, contextAsyncHandler } from '../context';
-import { validate } from './validate';
+import { validateToken } from './validateToken';
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -32,11 +32,11 @@ async function authenticateWithToken(
         res.sendStatus(401);
         return;
     }
-    const userId = await validate(context.authUrl, token);
+    const userId = await validateToken(context.authUrl, token);
     if (userId === null) {
         res.sendStatus(401);
         return;
     }
-    req.userId = parseInt(userId, 10);
+    req.userId = userId;
     next();
 }
