@@ -16,7 +16,6 @@
     "@tsconfig/node16": "^1.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.2",
-    "@types/commander": "^2.12.2",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
@@ -50,8 +49,5 @@
     "express-openapi-validator": "^4.13.7",
     "jsonwebtoken": "^8.5.1",
     "zod": "^3.14.4"
-  },
-  "resolutions": {
-    "minimist": "^1.2.6"
   }
 }
