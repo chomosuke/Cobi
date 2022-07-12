@@ -89,6 +89,7 @@
 #### Muliple Devices
 - As a user, I don't want to be notified on my other devices when I'm chatting in one device so that I won't be bombarded with duplicated notification.
 - As a user, I want to be notified on all my device when I'm not chatting so that I won't miss a notification.
+- As a user, I always want to be notified on all my devices when called so that I can pick up the call from any device.
 
 #### Muting
 - As a user, I want to mute my chat for some specific amount of time so that I won't be distrubed by it during that time.
