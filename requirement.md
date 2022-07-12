@@ -121,5 +121,10 @@
 - As a user, I want to check if I am cutted off during a call so that I'd know if they might not hear what I'm saying.
 - As a user, I want to check if I'm currently hearing buffered audio from the other user so I'd know what I'm hearing is not what they're currently saying.
 
+## Devices
+- web browser of any size.
+- phone and tablet.
+- desktop app.
+
 ## Color Scheme
 Taupe with pink accent.
