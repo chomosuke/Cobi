@@ -99,6 +99,7 @@
 
 ### Call
 - As a user, I want to initiate a call within a chat so that I can converse with people via audio.
+- As a user, I want to switch to another device seemlessly during a call so that I don't have to hangup and call again.
 
 #### Camera & Audio Toggle
 - As a user, I want to turn on or off my camera during a call so that I can show my emotion better.
