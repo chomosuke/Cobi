@@ -130,3 +130,7 @@
 
 ## Color Scheme
 Taupe with pink accent.
+
+## Style Guideline
+The appearance of the app should be [iOS-style](https://developer.apple.com/design/human-interface-guidelines/foundations/overview) and should draw widgets from [iOS-style widget for flutter](https://docs.flutter.dev/development/ui/widgets/cupertino) when possible.
+This is to reduce the effort of software development and reduce decision paralysis.
