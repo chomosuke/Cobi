@@ -12,8 +12,11 @@
 #### Username
 - As a user, I want to have a username so that I can be identified.
 - As a user, I want to view other user's username so that I can identify them.
+- As a user, I want to change my username so that I can stop using a username that I don't like.
 
-#### Password
+#### Login
+- As a user, I want to login with my email so that I don't have to change my saved login details everytime I change my username.
+- As a user, I don't want anyone who doesn't own my email to register an account with my email so that I won't find my email already used when trying to register myself.
 - As a user, I want to change my password so that I can change a compromized password.
 
 ### Message
